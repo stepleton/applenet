@@ -1,0 +1,56 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 157-0019
+D Probably a balun of some kind
+$ENDCMP
+#
+$CMP 157-0020
+D Yet another balun
+$ENDCMP
+#
+$CMP 6PIN
+D 5 pins connector, 41524
+K CONN DIN 5-pins 41524
+$ENDCMP
+#
+$CMP 74265
+D Quad complementary output element
+$ENDCMP
+#
+$CMP 75107A
+D Dual line receiver
+$ENDCMP
+#
+$CMP 75453
+D Dual peripheral NOR driver
+$ENDCMP
+#
+$CMP Am2812
+D 8 X 32 FIFO
+$ENDCMP
+#
+$CMP CA3146E
+D High-voltage transistor array
+$ENDCMP
+#
+$CMP LISA_BUS
+D Apple Lisa expansion bus connector
+$ENDCMP
+#
+$CMP SCN2653
+D Polynomial generator checker
+$ENDCMP
+#
+$CMP UA733C
+D Differential video amplifier
+$ENDCMP
+#
+$CMP VGG
+K POWER, PWR
+$ENDCMP
+#
+$CMP Z8603
+D Microcontroller
+$ENDCMP
+#
+#End Doc Library
