@@ -36,7 +36,7 @@ encoding utf-8
 Sheet 1 1
 Title "Inferred schematic for the AppleNet network adaptor for Lisa"
 Date "2018-11-25"
-Rev "000 (DRAFT!)"
+Rev "001 (DRAFT!)"
 Comp ""
 Comment1 "London"
 Comment2 "stepleton@gmail.com"
@@ -1391,9 +1391,9 @@ Text Label 14150 5650 2    60   ~ 0
 Text Label 12500 7450 0    60   ~ 0
 ~AS
 Text Label 12500 7550 0    60   ~ 0
-UD1_OE
+~UD1_OE
 Text Label 6050 2900 0    60   ~ 0
-UD1_OE
+~UD1_OE
 Text Label 6050 3400 0    60   ~ 0
 3P0
 Text Label 2250 9950 0    60   ~ 0
@@ -1446,7 +1446,7 @@ Text Label 14150 5550 2    60   ~ 0
 Text Label 14350 10700 2    60   ~ 0
 ~DS
 Text Label 11150 4150 2    60   ~ 0
-~DS
+R/~W
 Text Label 18450 4900 2    60   ~ 0
 DATA_OUT
 Text Label 2250 6650 0    60   ~ 0
@@ -3154,7 +3154,7 @@ Text Label 9750 2850 2    60   ~ 0
 PLUP_13
 Text Label 18450 5300 0    60   ~ 0
 PLUP_15
-Text Label 9350 4200 2    60   ~ 0
+Text Label 9350 4150 2    60   ~ 0
 PLUP_10
 Text Label 15100 2600 2    60   ~ 0
 DATA_IN
@@ -3171,7 +3171,7 @@ Text Label 9850 1600 0    60   ~ 0
 Text Label 9850 1700 0    60   ~ 0
 ~RESET
 Text Label 9850 1900 0    60   ~ 0
-UD1_OE
+~UD1_OE
 Text Label 9850 1800 0    60   ~ 0
 0P6
 Text Notes 12350 9400 0    60   ~ 0
@@ -3210,11 +3210,9 @@ Wire Wire Line
 Connection ~ 13350 5550
 Wire Wire Line
 	9750 4350 13350 4350
+Connection ~ 9550 5050
 Wire Wire Line
-	9750 4150 11150 4150
-Connection ~ 9650 5050
-Wire Wire Line
-	9650 3150 9650 5050
+	9550 3150 9550 5050
 Wire Wire Line
 	12750 7450 12750 5650
 Wire Wire Line
@@ -3314,9 +3312,9 @@ Connection ~ 11150 3150
 Connection ~ 16800 16400
 Connection ~ 16800 16600
 Wire Wire Line
-	9100 5050 9650 5050
+	9100 5050 9550 5050
 Wire Wire Line
-	9650 5050 10300 5050
+	9550 5050 10300 5050
 Wire Wire Line
 	7300 6850 8200 6850
 Wire Wire Line
@@ -3968,7 +3966,7 @@ Wire Wire Line
 Wire Wire Line
 	2250 7450 4100 7450
 Wire Wire Line
-	9650 3150 11150 3150
+	9550 3150 11150 3150
 Wire Wire Line
 	10500 6050 14150 6050
 Wire Wire Line
@@ -4000,11 +3998,9 @@ Wire Wire Line
 Wire Wire Line
 	9750 2850 9750 3650
 Wire Wire Line
-	9750 3650 9750 4150
+	9750 3650 9750 4350
 Wire Wire Line
-	9750 4150 9750 4350
-Wire Wire Line
-	9950 3650 9750 3650
+	9750 3650 9950 3650
 Wire Wire Line
 	9850 3450 9950 3450
 Wire Wire Line
@@ -5171,13 +5167,14 @@ Connection ~ 9750 3650
 Wire Wire Line
 	8200 2300 7700 2300
 Connection ~ 9750 2850
-Connection ~ 9750 4150
 Connection ~ 18400 5300
 Wire Wire Line
-	9350 4450 9350 4200
+	9350 4450 9350 4150
 Connection ~ 9350 4450
 Wire Wire Line
-	9350 4200 8950 4200
+	8950 4150 9350 4150
+Wire Wire Line
+	9350 4150 11150 4150
 Wire Wire Line
 	1900 4000 2250 4000
 Wire Wire Line
@@ -5224,4 +5221,5 @@ Text Notes 900  17600 0    138  ~ 0
 CAPACITOR BARGAINS
 Text Notes 8400 17600 0    138  ~ 0
 CHUNNEL
+Connection ~ 9350 4150
 $EndSCHEMATC
