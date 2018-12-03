@@ -35,8 +35,8 @@ $Descr User 23622 19685
 encoding utf-8
 Sheet 1 1
 Title "Inferred schematic for the AppleNet network adaptor for Lisa"
-Date "2018-11-25"
-Rev "001 (DRAFT!)"
+Date "2018-12-03"
+Rev "002 (DRAFT!)"
 Comp ""
 Comment1 "London"
 Comment2 "stepleton@gmail.com"
@@ -3174,12 +3174,12 @@ Text Label 9850 1900 0    60   ~ 0
 ~UD1_OE
 Text Label 9850 1800 0    60   ~ 0
 0P6
-Text Notes 12350 9400 0    60   ~ 0
+Text Notes 12300 9400 0    60   ~ 0
 MCU\nRAM
-Text Notes 12350 11300 0    60   ~ 0
+Text Notes 12300 11300 0    60   ~ 0
 MCU\nRAM
-Text Notes 9150 10200 0    60   ~ 0
-LISA\nROM
+Text Notes 9100 10200 0    60   ~ 0
+LISA\nBOOT CODE\nROM\n341-0181
 Wire Wire Line
 	2750 13200 9800 13200
 Wire Wire Line
@@ -5222,4 +5222,8 @@ CAPACITOR BARGAINS
 Text Notes 8400 17600 0    138  ~ 0
 CHUNNEL
 Connection ~ 9350 4150
+Text Notes 19850 3450 0    60   ~ 0
+STREAM\nENCODER/DECODER\n341-0180
+Text Notes 14400 7500 0    60   ~ 0
+PIGGYBACK ROM: 341-0182
 $EndSCHEMATC
