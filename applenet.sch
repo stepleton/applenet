@@ -1,42 +1,12 @@
-EESchema Schematic File Version 2
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:missing_components
-EELAYER 25 0
+EESchema Schematic File Version 4
+EELAYER 30 0
 EELAYER END
 $Descr User 23622 19685
 encoding utf-8
 Sheet 1 1
 Title "Inferred schematic for the AppleNet network adaptor for Lisa"
-Date "2018-12-03"
-Rev "002 (DRAFT!)"
+Date "2020-07-24"
+Rev "003 (DRAFT!)"
 Comp ""
 Comment1 "London"
 Comment2 "stepleton@gmail.com"
@@ -44,7 +14,7 @@ Comment3 "Tom Stepleton"
 Comment4 "Forfeited into the public domain with NO WARRANTY"
 $EndDescr
 $Comp
-L 74LS109 UF1
+L applenet-rescue:74LS109 UF1
 U 1 1 5BDCCDCC
 P 5300 4650
 F 0 "UF1" H 5300 4750 50  0000 C CNN
@@ -55,7 +25,7 @@ F 3 "" H 5300 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS244 UF3
+L applenet-rescue:74LS244 UF3
 U 1 1 5BDCD127
 P 8650 7950
 F 0 "UF3" H 8700 7750 50  0000 C CNN
@@ -66,7 +36,7 @@ F 3 "" H 8650 7950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS245 UF4
+L applenet-rescue:74LS245 UF4
 U 1 1 5BDCD2FA
 P 8650 12550
 F 0 "UF4" H 8650 12300 50  0000 L BNN
@@ -77,7 +47,7 @@ F 3 "" H 8650 12550 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L 74LS244 UF5
+L applenet-rescue:74LS244 UF5
 U 1 1 5BDCD3DA
 P 8650 11150
 F 0 "UF5" H 8700 10950 50  0000 C CNN
@@ -88,7 +58,7 @@ F 3 "" H 8650 11150 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L 74LS125 UF6
+L applenet-rescue:74LS125 UF6
 U 1 1 5BDCD4B0
 P 4550 7450
 F 0 "UF6" H 4550 7550 50  0000 L BNN
@@ -99,7 +69,7 @@ F 3 "" H 4550 7450 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L 74LS125 UF6
+L applenet-rescue:74LS125 UF6
 U 2 1 5BDCD51D
 P 3250 11650
 F 0 "UF6" H 3250 11750 50  0000 L BNN
@@ -110,7 +80,7 @@ F 3 "" H 3250 11650 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L 74LS125 UF6
+L applenet-rescue:74LS125 UF6
 U 3 1 5BDCD564
 P 3250 7750
 F 0 "UF6" H 3250 7850 50  0000 L BNN
@@ -121,7 +91,7 @@ F 3 "" H 3250 7750 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L 74LS125 UF6
+L applenet-rescue:74LS125 UF6
 U 4 1 5BDCD5B3
 P 8650 4450
 F 0 "UF6" H 8650 4550 50  0000 L BNN
@@ -132,7 +102,7 @@ F 3 "" H 8650 4450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 2716 UF2
+L applenet-rescue:2716 UF2
 U 1 1 5BDCD83F
 P 8650 9550
 F 0 "UF2" H 8800 9350 50  0000 C CNN
@@ -143,7 +113,7 @@ F 3 "" H 8650 9550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS125 UE3
+L applenet-rescue:74LS125 UE3
 U 1 1 5BDCDA08
 P 8650 5050
 F 0 "UE3" H 8650 5150 50  0000 L BNN
@@ -154,7 +124,7 @@ F 3 "" H 8650 5050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS125 UE3
+L applenet-rescue:74LS125 UE3
 U 2 1 5BDCDD17
 P 8650 5650
 F 0 "UE3" H 8650 5750 50  0000 L BNN
@@ -165,7 +135,7 @@ F 3 "" H 8650 5650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS125 UE3
+L applenet-rescue:74LS125 UE3
 U 3 1 5BDCDDA6
 P 8650 6250
 F 0 "UE3" H 8650 6350 50  0000 L BNN
@@ -176,7 +146,7 @@ F 3 "" H 8650 6250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS125 UE3
+L applenet-rescue:74LS125 UE3
 U 4 1 5BDCDE48
 P 8650 6850
 F 0 "UE3" H 8650 6950 50  0000 L BNN
@@ -187,7 +157,7 @@ F 3 "" H 8650 6850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS175 UE4
+L applenet-rescue:74LS175 UE4
 U 1 1 5BDCDF34
 P 17800 2600
 F 0 "UE4" H 17800 2600 50  0000 C CNN
@@ -198,7 +168,7 @@ F 3 "" H 17800 2600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L PAL20 JE5
+L applenet-rescue:PAL20 JE5
 U 1 1 5BDCE192
 P 20300 2600
 F 0 "JE5" H 20300 2700 50  0000 C CNN
@@ -209,29 +179,7 @@ F 3 "" H 20300 2600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 75453 UF7
-U 1 1 5BDCEFDC
-P 4450 15850
-F 0 "UF7" H 4450 15750 50  0000 C CNN
-F 1 "75453" H 4450 15950 50  0000 C CNN
-F 2 "" H 5000 16150 50  0001 C CNN
-F 3 "" H 5000 16150 50  0001 C CNN
-	1    4450 15850
-	1    0    0    -1  
-$EndComp
-$Comp
-L 74265 UE6
-U 1 1 5BDCF18E
-P 2600 15900
-F 0 "UE6" H 2600 16100 60  0000 C CNN
-F 1 "74265" H 2600 15700 60  0000 C CNN
-F 2 "" H 2600 15900 60  0000 C CNN
-F 3 "" H 2600 15900 60  0000 C CNN
-	1    2600 15900
-	1    0    0    -1  
-$EndComp
-$Comp
-L 74LS374 UD1
+L applenet-rescue:74LS374 UD1
 U 1 1 5BDCFE54
 P 11800 7050
 F 0 "UD1" H 11800 7050 50  0000 C CNN
@@ -242,7 +190,7 @@ F 3 "" H 11800 7050 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L 6116 ICD3
+L applenet-rescue:6116 ICD3
 U 1 1 5BDD0030
 P 11800 8750
 F 0 "ICD3" H 11800 8950 50  0000 C CNN
@@ -253,7 +201,7 @@ F 3 "" H 11800 8750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 6116 ICD5
+L applenet-rescue:6116 ICD5
 U 1 1 5BDD028B
 P 11800 10650
 F 0 "ICD5" H 11800 10850 50  0000 C CNN
@@ -264,7 +212,7 @@ F 3 "" H 11800 10650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L UA733C UD7
+L applenet-rescue:UA733C UD7
 U 1 1 5BDD14C3
 P 11300 15900
 F 0 "UD7" H 11600 16350 60  0000 C CNN
@@ -275,7 +223,7 @@ F 3 "" H 11300 15900 60  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS173 UC1
+L applenet-rescue:74LS173 UC1
 U 1 1 5BDD1C34
 P 15050 10350
 F 0 "UC1" H 15150 10450 50  0000 C CNN
@@ -286,7 +234,7 @@ F 3 "" H 15050 10350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS32 UC6
+L applenet-rescue:74LS32 UC6
 U 1 1 5BDD2FA9
 P 8800 2200
 F 0 "UC6" H 8800 2250 50  0000 C CNN
@@ -297,7 +245,7 @@ F 3 "" H 8800 2200 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS32 UC6
+L applenet-rescue:74LS32 UC6
 U 2 1 5BDD33B7
 P 11750 4050
 F 0 "UC6" H 11750 4100 50  0000 C CNN
@@ -308,7 +256,7 @@ F 3 "" H 11750 4050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS32 UC6
+L applenet-rescue:74LS32 UC6
 U 3 1 5BDD34DC
 P 11750 3450
 F 0 "UC6" H 11750 3500 50  0000 C CNN
@@ -319,7 +267,7 @@ F 3 "" H 11750 3450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS32 UC6
+L applenet-rescue:74LS32 UC6
 U 4 1 5BDD35AC
 P 19050 4800
 F 0 "UC6" H 19050 4850 50  0000 C CNN
@@ -330,7 +278,7 @@ F 3 "" H 19050 4800 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS123 UA1
+L applenet-rescue:74LS123 UA1
 U 1 1 5BDD3B9B
 P 19650 13300
 F 0 "UA1" H 19650 13250 50  0000 C CNN
@@ -341,7 +289,7 @@ F 3 "" H 19650 13300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS123 UA1
+L applenet-rescue:74LS123 UA1
 U 2 1 5BDD3C08
 P 19650 15200
 F 0 "UA1" H 19650 15150 50  0000 C CNN
@@ -352,7 +300,7 @@ F 3 "" H 19650 15200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 1 1 5BDD3F24
 P 3700 4650
 F 0 "UB2" H 3850 4750 50  0000 C CNN
@@ -363,7 +311,7 @@ F 3 "" H 3700 4650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 2 1 5BDD420F
 P 10550 2200
 F 0 "UB2" H 10700 2300 50  0000 C CNN
@@ -374,7 +322,7 @@ F 3 "" H 10550 2200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 3 1 5BDD4280
 P 11750 2200
 F 0 "UB2" H 11900 2300 50  0000 C CNN
@@ -385,7 +333,7 @@ F 3 "" H 11750 2200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 4 1 5BDD42E9
 P 19750 1300
 F 0 "UB2" H 19900 1400 50  0000 C CNN
@@ -396,7 +344,7 @@ F 3 "" H 19750 1300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 5 1 5BDD435A
 P 15050 11250
 F 0 "UB2" H 15200 11350 50  0000 C CNN
@@ -407,7 +355,7 @@ F 3 "" H 15050 11250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS14 UB2
+L applenet-rescue:74LS14 UB2
 U 6 1 5BDD43C3
 P 16650 1300
 F 0 "UB2" H 16800 1400 50  0000 C CNN
@@ -418,7 +366,7 @@ F 3 "" H 16650 1300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS00 UB3
+L applenet-rescue:74LS00 UB3
 U 1 1 5BDD4A11
 P 10550 2750
 F 0 "UB3" H 10550 2800 50  0000 C CNN
@@ -429,7 +377,7 @@ F 3 "" H 10550 2750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS00 UB3
+L applenet-rescue:74LS00 UB3
 U 2 1 5BDD4A94
 P 11750 2850
 F 0 "UB3" H 11750 2900 50  0000 C CNN
@@ -440,7 +388,7 @@ F 3 "" H 11750 2850 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS00 UB3
+L applenet-rescue:74LS00 UB3
 U 3 1 5BDD4B07
 P 21300 14250
 F 0 "UB3" H 21300 14300 50  0000 C CNN
@@ -451,7 +399,7 @@ F 3 "" H 21300 14250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS00 UB3
+L applenet-rescue:74LS00 UB3
 U 4 1 5BDD4B88
 P 17400 8650
 F 0 "UB3" H 17400 8700 50  0000 C CNN
@@ -462,7 +410,7 @@ F 3 "" H 17400 8650 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L 74LS00 UB4
+L applenet-rescue:74LS00 UB4
 U 1 1 5BDD5381
 P 3950 6050
 F 0 "UB4" H 3950 6100 50  0000 C CNN
@@ -473,7 +421,7 @@ F 3 "" H 3950 6050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS00 UB4
+L applenet-rescue:74LS00 UB4
 U 2 1 5BDD5387
 P 5150 6150
 F 0 "UB4" H 5150 6200 50  0000 C CNN
@@ -484,7 +432,7 @@ F 3 "" H 5150 6150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS00 UB4
+L applenet-rescue:74LS00 UB4
 U 3 1 5BDD538D
 P 20250 4550
 F 0 "UB4" H 20250 4600 50  0000 C CNN
@@ -495,7 +443,7 @@ F 3 "" H 20250 4550 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS00 UB4
+L applenet-rescue:74LS00 UB4
 U 4 1 5BDD5393
 P 19050 4300
 F 0 "UB4" H 19050 4350 50  0000 C CNN
@@ -506,7 +454,7 @@ F 3 "" H 19050 4300 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS08 UB5
+L applenet-rescue:74LS08 UB5
 U 1 1 5BDD670A
 P 3750 3150
 F 0 "UB5" H 3750 3200 50  0000 C CNN
@@ -517,7 +465,7 @@ F 3 "" H 3750 3150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS08 UB5
+L applenet-rescue:74LS08 UB5
 U 2 1 5BDD6F82
 P 3950 6650
 F 0 "UB5" H 3950 6700 50  0000 C CNN
@@ -528,7 +476,7 @@ F 3 "" H 3950 6650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS08 UB5
+L applenet-rescue:74LS08 UB5
 U 3 1 5BDD7057
 P 10550 3550
 F 0 "UB5" H 10550 3600 50  0000 C CNN
@@ -539,7 +487,7 @@ F 3 "" H 10550 3550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS08 UB5
+L applenet-rescue:74LS08 UB5
 U 4 1 5BDD7155
 P 19100 8650
 F 0 "UB5" H 19100 8700 50  0000 C CNN
@@ -550,7 +498,7 @@ F 3 "" H 19100 8650 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS109 UB1
+L applenet-rescue:74LS109 UB1
 U 1 1 5BDD7F09
 P 19300 9850
 F 0 "UB1" H 19300 9950 50  0000 C CNN
@@ -561,7 +509,7 @@ F 3 "" H 19300 9850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS109 UB1
+L applenet-rescue:74LS109 UB1
 U 2 1 5BDD805F
 P 15850 2600
 F 0 "UB1" H 15850 2700 50  0000 C CNN
@@ -572,7 +520,7 @@ F 3 "" H 15850 2600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 898-1-R3.3K RP1
+L applenet-rescue:898-1-R3.3K RP1
 U 1 1 5BDDCC9C
 P 14950 12300
 F 0 "RP1" H 14950 12750 60  0000 C CNN
@@ -583,7 +531,7 @@ F 3 "" H 14500 12300 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Am2812 ICC3
+L applenet-rescue:Am2812 ICC3
 U 1 1 5BDDD9A3
 P 18750 6200
 F 0 "ICC3" H 18750 6350 60  0000 C CNN
@@ -594,7 +542,7 @@ F 3 "http://bitsavers.informatik.uni-stuttgart.de/components/amd/_dataBooks/1980
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Z8603 ICD2
+L applenet-rescue:Z8603 ICD2
 U 1 1 5BDE3459
 P 15050 6300
 F 0 "ICD2" H 15050 6700 60  0000 C CNN
@@ -605,7 +553,7 @@ F 3 "http://bitsavers.informatik.uni-stuttgart.de/components/zilog/z8/Z8601_Z860
 	1    0    0    -1  
 $EndComp
 $Comp
-L CA3146E QA7
+L applenet-rescue:CA3146E QA7
 U 1 1 5BDF4638
 P 17400 16100
 F 0 "QA7" H 17700 16250 60  0000 C CNN
@@ -616,7 +564,7 @@ F 3 "https://www.silicon-ark.co.uk/datasheets/CA3183AE--datasheet-RCA.pdf" H 174
 	1    0    0    1   
 $EndComp
 $Comp
-L CA3146E QA7
+L applenet-rescue:CA3146E QA7
 U 2 1 5BDF4821
 P 15500 15800
 F 0 "QA7" H 15750 15850 60  0000 C CNN
@@ -627,7 +575,7 @@ F 3 "https://www.silicon-ark.co.uk/datasheets/CA3183AE--datasheet-RCA.pdf" H 155
 	1    0    0    -1  
 $EndComp
 $Comp
-L CA3146E QA7
+L applenet-rescue:CA3146E QA7
 U 3 1 5BDF48DC
 P 15500 16200
 F 0 "QA7" H 15750 16250 60  0000 C CNN
@@ -638,7 +586,7 @@ F 3 "https://www.silicon-ark.co.uk/datasheets/CA3183AE--datasheet-RCA.pdf" H 155
 	1    0    0    -1  
 $EndComp
 $Comp
-L CA3146E QA7
+L applenet-rescue:CA3146E QA7
 U 4 1 5BDF4983
 P 17400 16700
 F 0 "QA7" H 17700 16850 60  0000 C CNN
@@ -666,7 +614,7 @@ NoConn ~ 2250 10950
 NoConn ~ 2250 5850
 NoConn ~ 2250 8650
 $Comp
-L R R5
+L applenet-rescue:R R5
 U 1 1 5BE0BB51
 P 16600 15800
 F 0 "R5" V 16680 15800 50  0000 C CNN
@@ -677,7 +625,7 @@ F 3 "" H 16600 15800 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L VCC #PWR01
+L applenet-rescue:VCC #PWR01
 U 1 1 5BE0D6B4
 P 14900 15000
 F 0 "#PWR01" H 14900 14850 50  0001 C CNN
@@ -688,7 +636,7 @@ F 3 "" H 14900 15000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR02
+L applenet-rescue:VCC #PWR02
 U 1 1 5BE110F0
 P 2450 5650
 F 0 "#PWR02" H 2450 5500 50  0001 C CNN
@@ -699,7 +647,7 @@ F 3 "" H 2450 5650 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR03
+L applenet-rescue:GND #PWR03
 U 1 1 5BE123A6
 P 2450 6150
 F 0 "#PWR03" H 2450 5900 50  0001 C CNN
@@ -710,7 +658,7 @@ F 3 "" H 2450 6150 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L VEE #PWR04
+L applenet-rescue:VEE #PWR04
 U 1 1 5BE1461E
 P 2450 5950
 F 0 "#PWR04" H 2450 5800 50  0001 C CNN
@@ -721,7 +669,7 @@ F 3 "" H 2450 5950 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L VEE #PWR05
+L applenet-rescue:VEE #PWR05
 U 1 1 5BE14E88
 P 18000 15700
 F 0 "#PWR05" H 18000 15550 50  0001 C CNN
@@ -732,7 +680,7 @@ F 3 "" H 18000 15700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VGG #PWR06
+L applenet-rescue:VGG #PWR06
 U 1 1 5BE16799
 P 2450 6050
 F 0 "#PWR06" H 2450 5900 50  0001 C CNN
@@ -743,7 +691,7 @@ F 3 "" H 2450 6050 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR07
+L applenet-rescue:GND #PWR07
 U 1 1 5BE1C1F0
 P 19050 7100
 F 0 "#PWR07" H 19050 6850 50  0001 C CNN
@@ -1304,7 +1252,7 @@ Entry Wire Line
 Entry Wire Line
 	7200 9450 7300 9550
 $Comp
-L VCC #PWR08
+L applenet-rescue:VCC #PWR08
 U 1 1 5BE73097
 P 7700 8750
 F 0 "#PWR08" H 7700 8600 50  0001 C CNN
@@ -1427,7 +1375,7 @@ UF4_CE
 Text Label 9350 13050 0    60   ~ 0
 UF4_CE
 $Comp
-L Crystal Y1
+L applenet-rescue:Crystal Y1
 U 1 1 5BEBB287
 P 15950 5400
 F 0 "Y1" V 15750 5400 50  0000 C CNN
@@ -1480,7 +1428,7 @@ Text Label 2250 6950 0    60   ~ 0
 Text Label 4550 6350 2    60   ~ 0
 ~IAKn
 $Comp
-L GND #PWR09
+L applenet-rescue:GND #PWR09
 U 1 1 5BEEA360
 P 3700 7750
 F 0 "#PWR09" H 3700 7500 50  0001 C CNN
@@ -1499,7 +1447,7 @@ Text Label 2250 6850 0    60   ~ 0
 Text Label 3350 6150 2    60   ~ 0
 ~INTn
 $Comp
-L VCC #PWR010
+L applenet-rescue:VCC #PWR010
 U 1 1 5BEF4BDF
 P 15600 11950
 F 0 "#PWR010" H 15600 11800 50  0001 C CNN
@@ -1534,7 +1482,7 @@ Text Label 15950 7050 0    60   ~ 0
 Text Label 5300 5450 0    60   ~ 0
 0P6
 $Comp
-L VGG #PWR011
+L applenet-rescue:VGG #PWR011
 U 1 1 5BE63FC4
 P 18950 5300
 F 0 "#PWR011" H 18950 5150 50  0001 C CNN
@@ -1545,7 +1493,7 @@ F 3 "" H 18950 5300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR012
+L applenet-rescue:VCC #PWR012
 U 1 1 5BE65501
 P 19050 5300
 F 0 "#PWR012" H 19050 5150 50  0001 C CNN
@@ -1584,7 +1532,7 @@ FIFO_PL
 Text Label 19950 9600 0    60   ~ 0
 FIFO_PL
 $Comp
-L 74LS109 UF1
+L applenet-rescue:74LS109 UF1
 U 2 1 5BE67994
 P 5300 3150
 F 0 "UF1" H 5300 3250 50  0000 C CNN
@@ -1595,7 +1543,7 @@ F 3 "" H 5300 3150 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L GND #PWR013
+L applenet-rescue:GND #PWR013
 U 1 1 5BE6B744
 P 14050 10900
 F 0 "#PWR013" H 14050 10650 50  0001 C CNN
@@ -1620,7 +1568,7 @@ Text Label 14300 8950 2    60   ~ 0
 Text Label 14300 9050 2    60   ~ 0
 1P6
 $Comp
-L SCN2653 UC2
+L applenet-rescue:SCN2653 UC2
 U 1 1 5BE7489F
 P 15050 8800
 F 0 "UC2" H 15050 8700 50  0000 C CNN
@@ -1651,7 +1599,7 @@ XTAL2
 Text Label 18500 2250 0    60   ~ 0
 ~INTn
 $Comp
-L GND #PWR014
+L applenet-rescue:GND #PWR014
 U 1 1 5BECDA56
 P 19500 3050
 F 0 "#PWR014" H 19500 2800 50  0001 C CNN
@@ -1662,7 +1610,7 @@ F 3 "" H 19500 3050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR015
+L applenet-rescue:VCC #PWR015
 U 1 1 5BECDAEA
 P 21100 2150
 F 0 "#PWR015" H 21100 2000 50  0001 C CNN
@@ -1687,7 +1635,7 @@ Text Label 15950 6450 0    60   ~ 0
 Text Label 19500 2450 2    60   ~ 0
 2P7
 $Comp
-L GND #PWR016
+L applenet-rescue:GND #PWR016
 U 1 1 5BED5FF4
 P 21100 3050
 F 0 "#PWR016" H 21100 2800 50  0001 C CNN
@@ -1702,7 +1650,7 @@ FIFO_SD
 Text Label 14650 2150 0    60   ~ 0
 PLUP_14
 $Comp
-L GND #PWR017
+L applenet-rescue:GND #PWR017
 U 1 1 5BEDCA73
 P 15100 2850
 F 0 "#PWR017" H 15100 2600 50  0001 C CNN
@@ -1715,7 +1663,7 @@ $EndComp
 Text Label 15850 1800 2    60   ~ 0
 3P5
 $Comp
-L TEST_1P TP17
+L applenet-rescue:TEST_1P TP17
 U 1 1 5BEDFBAD
 P 21900 14250
 F 0 "TP17" H 21900 14450 50  0000 C CNN
@@ -1731,7 +1679,7 @@ PLUP_1
 Text Label 19650 16000 0    60   ~ 0
 PLUP_1
 $Comp
-L GND #PWR018
+L applenet-rescue:GND #PWR018
 U 1 1 5BEEC1BF
 P 18800 16000
 F 0 "#PWR018" H 18800 15750 50  0001 C CNN
@@ -1742,7 +1690,7 @@ F 3 "" H 18800 16000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 75107A UA3
+L applenet-rescue:75107A UA3
 U 1 1 5BEEEC36
 P 17750 14200
 F 0 "UA3" H 17500 14700 60  0000 C CNN
@@ -1753,7 +1701,7 @@ F 3 "" H 17700 14350 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR019
+L applenet-rescue:VCC #PWR019
 U 1 1 5BEEF4AA
 P 17900 13450
 F 0 "#PWR019" H 17900 13300 50  0001 C CNN
@@ -1764,7 +1712,7 @@ F 3 "" H 17900 13450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VEE #PWR020
+L applenet-rescue:VEE #PWR020
 U 1 1 5BEF0615
 P 18000 13450
 F 0 "#PWR020" H 18000 13300 50  0001 C CNN
@@ -1775,7 +1723,7 @@ F 3 "" H 18000 13450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R11
+L applenet-rescue:R R11
 U 1 1 5BEF2C9E
 P 18250 15000
 F 0 "R11" V 18330 15000 50  0000 C CNN
@@ -1786,7 +1734,7 @@ F 3 "" H 18250 15000 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R10
+L applenet-rescue:R R10
 U 1 1 5BEF3AFF
 P 18250 13100
 F 0 "R10" V 18330 13100 50  0000 C CNN
@@ -1797,7 +1745,7 @@ F 3 "" H 18250 13100 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L TEST_1P TP15
+L applenet-rescue:TEST_1P TP15
 U 1 1 5BEF4083
 P 18600 15000
 F 0 "TP15" H 18600 15200 50  0000 C CNN
@@ -1808,7 +1756,7 @@ F 3 "" H 18800 15000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP16
+L applenet-rescue:TEST_1P TP16
 U 1 1 5BEF4506
 P 18600 13100
 F 0 "TP16" H 18600 13300 50  0000 C CNN
@@ -1821,7 +1769,7 @@ $EndComp
 Text Label 16900 13800 2    60   ~ 0
 PLUP_1
 $Comp
-L R R9
+L applenet-rescue:R R9
 U 1 1 5BEF8A47
 P 17200 15150
 F 0 "R9" V 17280 15150 50  0000 C CNN
@@ -1832,7 +1780,7 @@ F 3 "" H 17200 15150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R8
+L applenet-rescue:R R8
 U 1 1 5BEF93D9
 P 17200 13250
 F 0 "R8" V 17280 13250 50  0000 C CNN
@@ -1843,7 +1791,7 @@ F 3 "" H 17200 13250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP13
+L applenet-rescue:TEST_1P TP13
 U 1 1 5BF02A06
 P 16300 14100
 F 0 "TP13" H 16300 14300 50  0000 C CNN
@@ -1854,7 +1802,7 @@ F 3 "" H 16500 14100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP14
+L applenet-rescue:TEST_1P TP14
 U 1 1 5BF02BA1
 P 16300 14500
 F 0 "TP14" H 16300 14700 50  0000 C CNN
@@ -1865,7 +1813,7 @@ F 3 "" H 16500 14500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R6
+L applenet-rescue:R R6
 U 1 1 5BF02EB8
 P 16000 16550
 F 0 "R6" V 16080 16550 50  0000 C CNN
@@ -1876,7 +1824,7 @@ F 3 "" H 16000 16550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R7
+L applenet-rescue:R R7
 U 1 1 5BF032E1
 P 16200 16550
 F 0 "R7" V 16280 16550 50  0000 C CNN
@@ -1887,7 +1835,7 @@ F 3 "" H 16200 16550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C9
+L applenet-rescue:C C9
 U 1 1 5BF052EB
 P 16200 15050
 F 0 "C9" H 16250 15150 50  0000 L CNN
@@ -1898,7 +1846,7 @@ F 3 "" H 16200 15050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C10
+L applenet-rescue:C C10
 U 1 1 5BF0638C
 P 16000 15050
 F 0 "C10" H 15800 15150 50  0000 L CNN
@@ -1909,7 +1857,7 @@ F 3 "" H 16000 15050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR021
+L applenet-rescue:VCC #PWR021
 U 1 1 5BF0DDB3
 P 16450 15700
 F 0 "#PWR021" H 16450 15550 50  0001 C CNN
@@ -1920,7 +1868,7 @@ F 3 "" H 16450 15700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP12
+L applenet-rescue:TEST_1P TP12
 U 1 1 5BF125CC
 P 14700 15700
 F 0 "TP12" H 14700 15900 50  0000 C CNN
@@ -1931,7 +1879,7 @@ F 3 "" H 14900 15700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP11
+L applenet-rescue:TEST_1P TP11
 U 1 1 5BF128C8
 P 14700 16100
 F 0 "TP11" H 14700 16300 50  0000 C CNN
@@ -1942,7 +1890,7 @@ F 3 "" H 14900 16100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C7
+L applenet-rescue:C C7
 U 1 1 5BF130F8
 P 14500 16250
 F 0 "C7" H 14525 16350 50  0000 L CNN
@@ -1953,7 +1901,7 @@ F 3 "" H 14500 16250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C8
+L applenet-rescue:C C8
 U 1 1 5BF131C1
 P 14300 15850
 F 0 "C8" H 14325 15950 50  0000 L CNN
@@ -1964,7 +1912,7 @@ F 3 "" H 14300 15850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L INDUCTOR L4
+L applenet-rescue:INDUCTOR L4
 U 1 1 5BF14AA8
 P 13800 15700
 F 0 "L4" V 13750 15700 50  0000 C CNN
@@ -1975,7 +1923,7 @@ F 3 "" H 13800 15700 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L INDUCTOR L3
+L applenet-rescue:INDUCTOR L3
 U 1 1 5BF15283
 P 13800 16100
 F 0 "L3" V 13750 16100 50  0000 C CNN
@@ -1986,7 +1934,7 @@ F 3 "" H 13800 16100 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C C6
+L applenet-rescue:C C6
 U 1 1 5BF15B43
 P 13100 15850
 F 0 "C6" H 13125 15950 50  0000 L CNN
@@ -1997,7 +1945,7 @@ F 3 "" H 13100 15850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C5
+L applenet-rescue:C C5
 U 1 1 5BF15C24
 P 13300 16250
 F 0 "C5" H 13325 16350 50  0000 L CNN
@@ -2008,7 +1956,7 @@ F 3 "" H 13300 16250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R4
+L applenet-rescue:R R4
 U 1 1 5BF17684
 P 12750 15700
 F 0 "R4" V 12830 15700 50  0000 C CNN
@@ -2019,7 +1967,7 @@ F 3 "" H 12750 15700 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R3
+L applenet-rescue:R R3
 U 1 1 5BF178AA
 P 12750 16100
 F 0 "R3" V 12830 16100 50  0000 C CNN
@@ -2030,7 +1978,7 @@ F 3 "" H 12750 16100 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L TEST_1P TP10
+L applenet-rescue:TEST_1P TP10
 U 1 1 5BF18685
 P 12400 15700
 F 0 "TP10" H 12400 15900 50  0000 C CNN
@@ -2041,7 +1989,7 @@ F 3 "" H 12600 15700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP9
+L applenet-rescue:TEST_1P TP9
 U 1 1 5BF1887C
 P 12400 16100
 F 0 "TP9" H 12400 16300 50  0000 C CNN
@@ -2052,7 +2000,7 @@ F 3 "" H 12600 16100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R2
+L applenet-rescue:R R2
 U 1 1 5BF1AAB3
 P 10400 15900
 F 0 "R2" V 10480 15900 50  0000 C CNN
@@ -2063,7 +2011,7 @@ F 3 "" H 10400 15900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP8
+L applenet-rescue:TEST_1P TP8
 U 1 1 5BF1B979
 P 10600 15700
 F 0 "TP8" H 10600 15900 50  0000 C CNN
@@ -2074,7 +2022,7 @@ F 3 "" H 10800 15700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TEST_1P TP7
+L applenet-rescue:TEST_1P TP7
 U 1 1 5BF1BE4A
 P 10600 16100
 F 0 "TP7" H 10600 16300 50  0000 C CNN
@@ -2085,7 +2033,7 @@ F 3 "" H 10800 16100 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L 157-0019 T1
+L applenet-rescue:157-0019 T1
 U 1 1 5BF1E708
 P 9650 15900
 F 0 "T1" H 9650 16150 50  0000 C CNN
@@ -2096,29 +2044,18 @@ F 3 "" H 9650 15900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R1
-U 1 1 5BF20323
-P 9150 16400
-F 0 "R1" V 9230 16400 50  0000 C CNN
-F 1 "27" V 9150 16400 50  0000 C CNN
-F 2 "" V 9080 16400 50  0000 C CNN
-F 3 "" H 9150 16400 50  0000 C CNN
-	1    9150 16400
-	1    0    0    -1  
-$EndComp
-$Comp
-L 6PIN J1
+L applenet-rescue:6PIN J1
 U 1 1 5BF24135
-P 8450 15900
-F 0 "J1" H 8450 15900 50  0000 C CNN
-F 1 "6PIN" H 8450 15750 50  0000 C CNN
-F 2 "" H 8450 15900 50  0000 C CNN
-F 3 "" H 8450 15900 50  0000 C CNN
-	1    8450 15900
+P 8500 15900
+F 0 "J1" H 8500 15900 50  0000 C CNN
+F 1 "6PIN" H 8500 15750 50  0000 C CNN
+F 2 "" H 8500 15900 50  0000 C CNN
+F 3 "" H 8500 15900 50  0000 C CNN
+	1    8500 15900
 	1    0    0    -1  
 $EndComp
 $Comp
-L Jumper_NO_Small R15
+L applenet-rescue:Jumper_NO_Small R15
 U 1 1 5BECB381
 P 11750 16600
 F 0 "R15" H 11750 16680 50  0000 C CNN
@@ -2129,7 +2066,7 @@ F 3 "" H 11750 16600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C2
+L applenet-rescue:C C2
 U 1 1 5BECF5CC
 P 11200 16850
 F 0 "C2" H 11050 16950 50  0000 L CNN
@@ -2140,7 +2077,7 @@ F 3 "" H 11200 16850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C4
+L applenet-rescue:C C4
 U 1 1 5BED095A
 P 11200 14950
 F 0 "C4" H 11050 15050 50  0000 L CNN
@@ -2153,7 +2090,7 @@ $EndComp
 NoConn ~ 11300 16600
 NoConn ~ 11300 15200
 $Comp
-L CP1 C1
+L applenet-rescue:CP1 C1
 U 1 1 5BED2C25
 P 11500 16850
 F 0 "C1" H 11550 16750 50  0000 L CNN
@@ -2164,7 +2101,7 @@ F 3 "" H 11500 16850 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L CP1 C3
+L applenet-rescue:CP1 C3
 U 1 1 5BED4B30
 P 11500 14950
 F 0 "C3" H 11550 14850 50  0000 L CNN
@@ -2175,7 +2112,7 @@ F 3 "" H 11500 14950 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L INDUCTOR L2
+L applenet-rescue:INDUCTOR L2
 U 1 1 5BED5E81
 P 12000 15000
 F 0 "L2" V 11950 15000 50  0000 C CNN
@@ -2186,7 +2123,7 @@ F 3 "" H 12000 15000 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L INDUCTOR L1
+L applenet-rescue:INDUCTOR L1
 U 1 1 5BED7602
 P 12000 16800
 F 0 "L1" V 11950 16800 50  0000 C CNN
@@ -2197,7 +2134,7 @@ F 3 "" H 12000 16800 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L VEE #PWR022
+L applenet-rescue:VEE #PWR022
 U 1 1 5BED922C
 P 12300 15000
 F 0 "#PWR022" H 12300 14850 50  0001 C CNN
@@ -2208,7 +2145,7 @@ F 3 "" H 12300 15000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR023
+L applenet-rescue:VCC #PWR023
 U 1 1 5BEDA7C4
 P 12300 16800
 F 0 "#PWR023" H 12300 16650 50  0001 C CNN
@@ -2219,7 +2156,7 @@ F 3 "" H 12300 16800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L INDUCTOR L6
+L applenet-rescue:INDUCTOR L6
 U 1 1 5BEDBB91
 P 9000 18350
 F 0 "L6" V 8950 18350 50  0000 C CNN
@@ -2230,7 +2167,7 @@ F 3 "" H 9000 18350 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR024
+L applenet-rescue:GND #PWR024
 U 1 1 5BEDC31D
 P 8700 18350
 F 0 "#PWR024" H 8700 18100 50  0001 C CNN
@@ -2241,161 +2178,40 @@ F 3 "" H 8700 18350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 157-0020 T2
-U 1 1 5BEE01E8
-P 7250 15900
-F 0 "T2" H 7250 16150 50  0000 C CNN
-F 1 "157-0020" H 7250 15600 50  0000 C CNN
-F 2 "" H 7250 15900 50  0000 C CNN
-F 3 "" H 7250 15900 50  0000 C CNN
-	1    7250 15900
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR025
+L applenet-rescue:GND #PWR025
 U 1 1 5BEE27A9
-P 7950 16250
-F 0 "#PWR025" H 7950 16000 50  0001 C CNN
-F 1 "GND" H 8000 16100 50  0000 C CNN
-F 2 "" H 7950 16250 50  0000 C CNN
-F 3 "" H 7950 16250 50  0000 C CNN
-	1    7950 16250
+P 8050 16550
+F 0 "#PWR025" H 8050 16300 50  0001 C CNN
+F 1 "GND" H 8050 16400 50  0000 C CNN
+F 2 "" H 8050 16550 50  0000 C CNN
+F 3 "" H 8050 16550 50  0000 C CNN
+	1    8050 16550
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR026
+L applenet-rescue:GND #PWR026
 U 1 1 5BEE30DD
-P 7750 16550
-F 0 "#PWR026" H 7750 16300 50  0001 C CNN
-F 1 "GND" H 7750 16400 50  0000 C CNN
-F 2 "" H 7750 16550 50  0000 C CNN
-F 3 "" H 7750 16550 50  0000 C CNN
-	1    7750 16550
+P 7850 16550
+F 0 "#PWR026" H 7850 16300 50  0001 C CNN
+F 1 "GND" H 7850 16400 50  0000 C CNN
+F 2 "" H 7850 16550 50  0000 C CNN
+F 3 "" H 7850 16550 50  0000 C CNN
+	1    7850 16550
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R18
+L applenet-rescue:R R18
 U 1 1 5BEE30E3
-P 7750 16400
-F 0 "R18" V 7830 16400 50  0000 C CNN
-F 1 "27" V 7750 16400 50  0000 C CNN
-F 2 "" V 7680 16400 50  0000 C CNN
-F 3 "" H 7750 16400 50  0000 C CNN
-	1    7750 16400
+P 7850 16400
+F 0 "R18" V 7930 16400 50  0000 C CNN
+F 1 "27" V 7850 16400 50  0000 C CNN
+F 2 "" V 7780 16400 50  0000 C CNN
+F 3 "" H 7850 16400 50  0000 C CNN
+	1    7850 16400
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R17
-U 1 1 5BEEA95E
-P 6500 16250
-F 0 "R17" V 6580 16250 50  0000 C CNN
-F 1 "39" V 6500 16250 50  0000 C CNN
-F 2 "" V 6430 16250 50  0000 C CNN
-F 3 "" H 6500 16250 50  0000 C CNN
-	1    6500 16250
-	1    0    0    -1  
-$EndComp
-$Comp
-L C C14
-U 1 1 5BEEAC6B
-P 6750 16250
-F 0 "C14" H 6775 16350 50  0000 L CNN
-F 1 "6.8nF" H 6775 16150 50  0000 L CNN
-F 2 "" H 6788 16100 50  0000 C CNN
-F 3 "" H 6750 16250 50  0000 C CNN
-	1    6750 16250
-	1    0    0    -1  
-$EndComp
-$Comp
-L TEST_1P TP2
-U 1 1 5BEEFD7A
-P 6500 16100
-F 0 "TP2" H 6500 16300 50  0000 C CNN
-F 1 "TEST_1P" H 6500 16300 50  0001 C CNN
-F 2 "" H 6700 16100 50  0000 C CNN
-F 3 "" H 6700 16100 50  0000 C CNN
-	1    6500 16100
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R R16
-U 1 1 5BEF0F1E
-P 6500 15550
-F 0 "R16" V 6580 15550 50  0000 C CNN
-F 1 "39" V 6500 15550 50  0000 C CNN
-F 2 "" V 6430 15550 50  0000 C CNN
-F 3 "" H 6500 15550 50  0000 C CNN
-	1    6500 15550
-	1    0    0    -1  
-$EndComp
-$Comp
-L C C13
-U 1 1 5BEF0F24
-P 6750 15550
-F 0 "C13" H 6775 15650 50  0000 L CNN
-F 1 "6.8nF" H 6775 15450 50  0000 L CNN
-F 2 "" H 6788 15400 50  0000 C CNN
-F 3 "" H 6750 15550 50  0000 C CNN
-	1    6750 15550
-	1    0    0    -1  
-$EndComp
-$Comp
-L TEST_1P TP1
-U 1 1 5BEF1020
-P 6500 15700
-F 0 "TP1" H 6500 15900 50  0000 C CNN
-F 1 "TEST_1P" H 6500 15900 50  0001 C CNN
-F 2 "" H 6700 15700 50  0000 C CNN
-F 3 "" H 6700 15700 50  0000 C CNN
-	1    6500 15700
-	0    -1   -1   0   
-$EndComp
-$Comp
-L C C15
-U 1 1 5BEFCC90
-P 5700 16050
-F 0 "C15" H 5550 16150 50  0000 L CNN
-F 1 "0.1" H 5550 15950 50  0000 L CNN
-F 2 "" H 5738 15900 50  0000 C CNN
-F 3 "" H 5700 16050 50  0000 C CNN
-	1    5700 16050
-	1    0    0    -1  
-$EndComp
-$Comp
-L CP1 C16
-U 1 1 5BEFCC96
-P 6000 16050
-F 0 "C16" H 6050 15950 50  0000 L CNN
-F 1 "10" H 6050 16150 50  0000 L CNN
-F 2 "" H 6000 16050 50  0000 C CNN
-F 3 "" H 6000 16050 50  0000 C CNN
-	1    6000 16050
-	-1   0    0    1   
-$EndComp
-$Comp
-L GND #PWR027
-U 1 1 5BEFE98E
-P 5700 16550
-F 0 "#PWR027" H 5700 16300 50  0001 C CNN
-F 1 "GND" H 5700 16400 50  0000 C CNN
-F 2 "" H 5700 16550 50  0000 C CNN
-F 3 "" H 5700 16550 50  0000 C CNN
-	1    5700 16550
-	1    0    0    -1  
-$EndComp
-$Comp
-L INDUCTOR L5
-U 1 1 5BF018A2
-P 6000 15200
-F 0 "L5" V 5950 15200 50  0000 C CNN
-F 1 "15uH" V 6100 15200 50  0000 C CNN
-F 2 "" H 6000 15200 50  0000 C CNN
-F 3 "" H 6000 15200 50  0000 C CNN
-	1    6000 15200
-	0    1    1    0   
-$EndComp
-$Comp
-L VDD #PWR028
+L applenet-rescue:VDD #PWR028
 U 1 1 5BF04235
 P 2450 5550
 F 0 "#PWR028" H 2450 5400 50  0001 C CNN
@@ -2406,51 +2222,7 @@ F 3 "" H 2450 5550 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L VDD #PWR029
-U 1 1 5BF054E3
-P 6300 15200
-F 0 "#PWR029" H 6300 15050 50  0001 C CNN
-F 1 "VDD" H 6300 15350 50  0000 C CNN
-F 2 "" H 6300 15200 50  0000 C CNN
-F 3 "" H 6300 15200 50  0000 C CNN
-	1    6300 15200
-	1    0    0    -1  
-$EndComp
-$Comp
-L TEST_1P TP4
-U 1 1 5BF07052
-P 3400 15700
-F 0 "TP4" H 3400 15900 50  0000 C CNN
-F 1 "TEST_1P" H 3400 15900 50  0001 C CNN
-F 2 "" H 3600 15700 50  0000 C CNN
-F 3 "" H 3600 15700 50  0000 C CNN
-	1    3400 15700
-	1    0    0    -1  
-$EndComp
-$Comp
-L TEST_1P TP3
-U 1 1 5BF073E8
-P 3400 16100
-F 0 "TP3" H 3400 16300 50  0000 C CNN
-F 1 "TEST_1P" H 3400 16300 50  0001 C CNN
-F 2 "" H 3600 16100 50  0000 C CNN
-F 3 "" H 3600 16100 50  0000 C CNN
-	1    3400 16100
-	-1   0    0    1   
-$EndComp
-$Comp
-L TEST_1P TP6
-U 1 1 5BF0887E
-P 3450 15900
-F 0 "TP6" V 3450 16150 50  0000 C CNN
-F 1 "TEST_1P" H 3450 16100 50  0001 C CNN
-F 2 "" H 3650 15900 50  0000 C CNN
-F 3 "" H 3650 15900 50  0000 C CNN
-	1    3450 15900
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LISA_BUS P1
+L applenet-rescue:LISA_BUS P1
 U 1 1 5BF1221B
 P 1850 8550
 F 0 "P1" H 1850 11800 60  0000 C CNN
@@ -2511,7 +2283,7 @@ NoConn ~ 18500 2850
 NoConn ~ 20400 13000
 NoConn ~ 20400 14900
 $Comp
-L R R13
+L applenet-rescue:R R13
 U 1 1 5BF83685
 P 20600 12750
 F 0 "R13" V 20680 12750 50  0000 C CNN
@@ -2522,7 +2294,7 @@ F 3 "" H 20600 12750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R12
+L applenet-rescue:R R12
 U 1 1 5BF83976
 P 20350 12500
 F 0 "R12" V 20430 12500 50  0000 C CNN
@@ -2533,7 +2305,7 @@ F 3 "" H 20350 12500 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L VCC #PWR030
+L applenet-rescue:VCC #PWR030
 U 1 1 5BF84416
 P 20600 12500
 F 0 "#PWR030" H 20600 12350 50  0001 C CNN
@@ -2560,7 +2332,7 @@ NoConn ~ 21100 2650
 NoConn ~ 21100 2550
 NoConn ~ 21100 2450
 $Comp
-L C C20
+L applenet-rescue:C C20
 U 1 1 5BF2C10C
 P 1900 18250
 F 0 "C20" H 1925 18350 50  0000 L CNN
@@ -2571,7 +2343,7 @@ F 3 "" H 1900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C21
+L applenet-rescue:C C21
 U 1 1 5BF2C59D
 P 2150 18250
 F 0 "C21" H 2175 18350 50  0000 L CNN
@@ -2582,7 +2354,7 @@ F 3 "" H 2150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C22
+L applenet-rescue:C C22
 U 1 1 5BF2CD22
 P 2400 18250
 F 0 "C22" H 2425 18350 50  0000 L CNN
@@ -2593,7 +2365,7 @@ F 3 "" H 2400 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C23
+L applenet-rescue:C C23
 U 1 1 5BF2CD28
 P 2650 18250
 F 0 "C23" H 2675 18350 50  0000 L CNN
@@ -2604,7 +2376,7 @@ F 3 "" H 2650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C24
+L applenet-rescue:C C24
 U 1 1 5BF2CEF4
 P 2900 18250
 F 0 "C24" H 2925 18350 50  0000 L CNN
@@ -2615,7 +2387,7 @@ F 3 "" H 2900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C25
+L applenet-rescue:C C25
 U 1 1 5BF2CEFA
 P 3150 18250
 F 0 "C25" H 3175 18350 50  0000 L CNN
@@ -2626,7 +2398,7 @@ F 3 "" H 3150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C26
+L applenet-rescue:C C26
 U 1 1 5BF2CF00
 P 3400 18250
 F 0 "C26" H 3425 18350 50  0000 L CNN
@@ -2637,7 +2409,7 @@ F 3 "" H 3400 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C27
+L applenet-rescue:C C27
 U 1 1 5BF2CF06
 P 3650 18250
 F 0 "C27" H 3675 18350 50  0000 L CNN
@@ -2648,7 +2420,7 @@ F 3 "" H 3650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C28
+L applenet-rescue:C C28
 U 1 1 5BF2D0EE
 P 3900 18250
 F 0 "C28" H 3925 18350 50  0000 L CNN
@@ -2659,7 +2431,7 @@ F 3 "" H 3900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C29
+L applenet-rescue:C C29
 U 1 1 5BF2D0F4
 P 4150 18250
 F 0 "C29" H 4175 18350 50  0000 L CNN
@@ -2670,7 +2442,7 @@ F 3 "" H 4150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C30
+L applenet-rescue:C C30
 U 1 1 5BF2D0FA
 P 4400 18250
 F 0 "C30" H 4425 18350 50  0000 L CNN
@@ -2681,7 +2453,7 @@ F 3 "" H 4400 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C31
+L applenet-rescue:C C31
 U 1 1 5BF2D7D4
 P 4650 18250
 F 0 "C31" H 4675 18350 50  0000 L CNN
@@ -2692,7 +2464,7 @@ F 3 "" H 4650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C32
+L applenet-rescue:C C32
 U 1 1 5BF2D7DA
 P 4900 18250
 F 0 "C32" H 4925 18350 50  0000 L CNN
@@ -2703,7 +2475,7 @@ F 3 "" H 4900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C33
+L applenet-rescue:C C33
 U 1 1 5BF2D7E0
 P 5150 18250
 F 0 "C33" H 5175 18350 50  0000 L CNN
@@ -2714,7 +2486,7 @@ F 3 "" H 5150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C34
+L applenet-rescue:C C34
 U 1 1 5BF2D7E6
 P 5400 18250
 F 0 "C34" H 5425 18350 50  0000 L CNN
@@ -2725,7 +2497,7 @@ F 3 "" H 5400 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C35
+L applenet-rescue:C C35
 U 1 1 5BF2D7EC
 P 5650 18250
 F 0 "C35" H 5675 18350 50  0000 L CNN
@@ -2736,7 +2508,7 @@ F 3 "" H 5650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C36
+L applenet-rescue:C C36
 U 1 1 5BF2D7F2
 P 5900 18250
 F 0 "C36" H 5925 18350 50  0000 L CNN
@@ -2747,7 +2519,7 @@ F 3 "" H 5900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C37
+L applenet-rescue:C C37
 U 1 1 5BF2D7F8
 P 6150 18250
 F 0 "C37" H 6175 18350 50  0000 L CNN
@@ -2758,7 +2530,7 @@ F 3 "" H 6150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C38
+L applenet-rescue:C C38
 U 1 1 5BF2D7FE
 P 6400 18250
 F 0 "C38" H 6425 18350 50  0000 L CNN
@@ -2769,7 +2541,7 @@ F 3 "" H 6400 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C39
+L applenet-rescue:C C39
 U 1 1 5BF2D804
 P 6650 18250
 F 0 "C39" H 6675 18350 50  0000 L CNN
@@ -2780,7 +2552,7 @@ F 3 "" H 6650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C40
+L applenet-rescue:C C40
 U 1 1 5BF2D80A
 P 6900 18250
 F 0 "C40" H 6925 18350 50  0000 L CNN
@@ -2791,7 +2563,7 @@ F 3 "" H 6900 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C41
+L applenet-rescue:C C41
 U 1 1 5BF2D810
 P 7150 18250
 F 0 "C41" H 7175 18350 50  0000 L CNN
@@ -2802,7 +2574,7 @@ F 3 "" H 7150 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR031
+L applenet-rescue:GND #PWR031
 U 1 1 5BF3720E
 P 1400 18400
 F 0 "#PWR031" H 1400 18150 50  0001 C CNN
@@ -2813,7 +2585,7 @@ F 3 "" H 1400 18400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR032
+L applenet-rescue:VCC #PWR032
 U 1 1 5BF3E45D
 P 1400 18100
 F 0 "#PWR032" H 1400 17950 50  0001 C CNN
@@ -2824,7 +2596,7 @@ F 3 "" H 1400 18100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C11
+L applenet-rescue:C C11
 U 1 1 5BF433E6
 P 1650 18250
 F 0 "C11" H 1675 18350 50  0000 L CNN
@@ -2835,7 +2607,7 @@ F 3 "" H 1650 18250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C18
+L applenet-rescue:C C18
 U 1 1 5BF46FE1
 P 9300 18200
 F 0 "C18" H 9325 18300 50  0000 L CNN
@@ -2846,7 +2618,7 @@ F 3 "" H 9300 18200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C19
+L applenet-rescue:C C19
 U 1 1 5BF4A0DD
 P 9550 18200
 F 0 "C19" H 9575 18300 50  0000 L CNN
@@ -2857,7 +2629,7 @@ F 3 "" H 9550 18200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR033
+L applenet-rescue:VCC #PWR033
 U 1 1 5BF4B6B8
 P 9550 18050
 F 0 "#PWR033" H 9550 17900 50  0001 C CNN
@@ -2868,7 +2640,7 @@ F 3 "" H 9550 18050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L VEE #PWR034
+L applenet-rescue:VEE #PWR034
 U 1 1 5BF4D3E8
 P 9300 18050
 F 0 "#PWR034" H 9300 17900 50  0001 C CNN
@@ -2879,7 +2651,7 @@ F 3 "" H 9300 18050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR035
+L applenet-rescue:GNDA #PWR035
 U 1 1 5BF504C8
 P 9550 18350
 F 0 "#PWR035" H 9550 18100 50  0001 C CNN
@@ -2890,7 +2662,7 @@ F 3 "" H 9550 18350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR036
+L applenet-rescue:GNDA #PWR036
 U 1 1 5BF53CE7
 P 17400 14700
 F 0 "#PWR036" H 17400 14450 50  0001 C CNN
@@ -2901,7 +2673,7 @@ F 3 "" H 17400 14700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR037
+L applenet-rescue:GNDA #PWR037
 U 1 1 5BF54D2E
 P 17200 15300
 F 0 "#PWR037" H 17200 15050 50  0001 C CNN
@@ -2912,7 +2684,7 @@ F 3 "" H 17200 15300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR038
+L applenet-rescue:GNDA #PWR038
 U 1 1 5BF552DC
 P 17200 13400
 F 0 "#PWR038" H 17200 13150 50  0001 C CNN
@@ -2923,7 +2695,7 @@ F 3 "" H 17200 13400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR039
+L applenet-rescue:GNDA #PWR039
 U 1 1 5BF560DF
 P 16200 16700
 F 0 "#PWR039" H 16200 16450 50  0001 C CNN
@@ -2934,7 +2706,7 @@ F 3 "" H 16200 16700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR040
+L applenet-rescue:GNDA #PWR040
 U 1 1 5BF575A2
 P 14300 16400
 F 0 "#PWR040" H 14300 16150 50  0001 C CNN
@@ -2945,7 +2717,7 @@ F 3 "" H 14300 16400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR041
+L applenet-rescue:GNDA #PWR041
 U 1 1 5BF57E05
 P 13100 16400
 F 0 "#PWR041" H 13100 16150 50  0001 C CNN
@@ -2956,7 +2728,7 @@ F 3 "" H 13100 16400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR042
+L applenet-rescue:GNDA #PWR042
 U 1 1 5BF5950F
 P 10900 14800
 F 0 "#PWR042" H 10900 14550 50  0001 C CNN
@@ -2967,7 +2739,7 @@ F 3 "" H 10900 14800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR043
+L applenet-rescue:GNDA #PWR043
 U 1 1 5BF596CA
 P 10950 17000
 F 0 "#PWR043" H 10950 16750 50  0001 C CNN
@@ -2978,29 +2750,7 @@ F 3 "" H 10950 17000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR044
-U 1 1 5BF5B252
-P 9150 16550
-F 0 "#PWR044" H 9150 16300 50  0001 C CNN
-F 1 "GNDA" H 9150 16400 50  0000 C CNN
-F 2 "" H 9150 16550 50  0000 C CNN
-F 3 "" H 9150 16550 50  0000 C CNN
-	1    9150 16550
-	1    0    0    -1  
-$EndComp
-$Comp
-L GNDA #PWR045
-U 1 1 5BF5B40D
-P 8450 16350
-F 0 "#PWR045" H 8450 16100 50  0001 C CNN
-F 1 "GNDA" H 8450 16200 50  0000 C CNN
-F 2 "" H 8450 16350 50  0000 C CNN
-F 3 "" H 8450 16350 50  0000 C CNN
-	1    8450 16350
-	1    0    0    -1  
-$EndComp
-$Comp
-L GNDA #PWR046
+L applenet-rescue:GNDA #PWR046
 U 1 1 5BF5BAC0
 P 10200 16250
 F 0 "#PWR046" H 10200 16000 50  0001 C CNN
@@ -3128,8 +2878,6 @@ Text Label 8200 4450 2    60   ~ 0
 READ
 Text GLabel 21750 2950 2    60   Output ~ 0
 DATA_OUT
-Text GLabel 2150 15900 0    60   Input ~ 0
-DATA_OUT
 Text GLabel 1900 4000 0    60   Input ~ 0
 DATA_IN
 Text GLabel 22000 14250 2    60   Output ~ 0
@@ -3180,6 +2928,18 @@ Text Notes 12300 11300 0    60   ~ 0
 MCU\nRAM
 Text Notes 9100 10200 0    60   ~ 0
 LISA\nBOOT CODE\nROM\n341-0181
+Text Notes 850  14150 0    217  ~ 0
+DIGITAL STUFF
+Text Notes 900  14800 0    217  ~ 0
+ANALOGUE STUFF
+Text Notes 900  17600 0    138  ~ 0
+CAPACITOR BARGAINS
+Text Notes 8400 17600 0    138  ~ 0
+CHUNNEL
+Text Notes 19850 3450 0    60   ~ 0
+STREAM\nENCODER/DECODER\n341-0180
+Text Notes 14400 7500 0    60   ~ 0
+PIGGYBACK ROM: 341-0182
 Wire Wire Line
 	2750 13200 9800 13200
 Wire Wire Line
@@ -3371,80 +3131,8 @@ Wire Wire Line
 	2250 8450 2750 8450
 Wire Wire Line
 	2750 8450 6950 8450
-Connection ~ 3400 16100
-Wire Wire Line
-	3050 16000 3050 16100
-Wire Wire Line
-	3050 15700 3050 15800
-Connection ~ 3400 15700
 Wire Wire Line
 	2450 5550 2250 5550
-Wire Wire Line
-	5700 15900 5700 15200
-Wire Wire Line
-	5700 16200 6000 16200
-Wire Wire Line
-	5700 16550 5700 16200
-Connection ~ 6000 15900
-Wire Wire Line
-	5700 15900 6000 15900
-Wire Wire Line
-	6000 15900 6850 15900
-Connection ~ 3600 15800
-Wire Wire Line
-	3600 15900 3450 15900
-Wire Wire Line
-	3050 16100 3400 16100
-Wire Wire Line
-	3400 16100 3850 16100
-Wire Wire Line
-	3050 15700 3400 15700
-Wire Wire Line
-	3400 15700 3700 15700
-Wire Wire Line
-	3850 16100 3850 16300
-Wire Wire Line
-	5300 15900 5200 15900
-Wire Wire Line
-	5300 16300 5300 15900
-Wire Wire Line
-	3850 16300 5300 16300
-Wire Wire Line
-	5200 15400 5200 15800
-Wire Wire Line
-	3600 15400 5200 15400
-Wire Wire Line
-	3600 15400 3600 15800
-Wire Wire Line
-	3600 15800 3600 15900
-Wire Wire Line
-	3700 15800 3600 15800
-Wire Wire Line
-	3700 16400 3700 15900
-Connection ~ 6500 15400
-Wire Wire Line
-	5400 15400 6500 15400
-Wire Wire Line
-	6500 15400 6750 15400
-Wire Wire Line
-	5400 16000 5400 15400
-Wire Wire Line
-	5200 16000 5400 16000
-Connection ~ 6500 16400
-Wire Wire Line
-	3700 16400 6500 16400
-Wire Wire Line
-	6500 16400 6750 16400
-Connection ~ 6750 15700
-Wire Wire Line
-	6500 15700 6750 15700
-Wire Wire Line
-	6750 15700 6850 15700
-Connection ~ 6750 16100
-Wire Wire Line
-	6500 16100 6750 16100
-Wire Wire Line
-	6750 16100 6850 16100
 Connection ~ 11200 14800
 Wire Wire Line
 	10900 14800 11200 14800
@@ -3455,18 +3143,6 @@ Wire Wire Line
 	10950 17000 11200 17000
 Wire Wire Line
 	11200 17000 11500 17000
-Wire Wire Line
-	7750 15900 7750 16250
-Wire Wire Line
-	7650 15900 7750 15900
-Wire Wire Line
-	7950 15900 7950 16250
-Wire Wire Line
-	8050 15900 7950 15900
-Wire Wire Line
-	7650 16100 8050 16100
-Wire Wire Line
-	7650 15700 8050 15700
 Connection ~ 11500 16700
 Wire Wire Line
 	11700 16700 11700 16800
@@ -3497,21 +3173,6 @@ Wire Wire Line
 	12050 15800 12200 15800
 Wire Wire Line
 	12050 15200 11400 15200
-Connection ~ 9150 15700
-Wire Wire Line
-	8850 15700 9150 15700
-Wire Wire Line
-	9150 15700 9250 15700
-Wire Wire Line
-	8950 15900 8850 16100
-Wire Wire Line
-	9250 15900 8950 15900
-Wire Wire Line
-	8950 16100 9250 16100
-Wire Wire Line
-	8850 15900 8950 16100
-Wire Wire Line
-	9150 15700 9150 16250
 Wire Wire Line
 	10200 15900 10200 16250
 Wire Wire Line
@@ -3921,8 +3582,6 @@ Wire Wire Line
 	4550 2900 4550 3400
 Wire Wire Line
 	4550 3400 4550 3850
-Wire Wire Line
-	4550 3400 4550 3400
 Connection ~ 5300 3950
 Wire Wire Line
 	15600 12450 16000 12450
@@ -4035,42 +3694,6 @@ Wire Wire Line
 	7950 8450 7950 8350
 Wire Wire Line
 	7700 8450 7950 8450
-Wire Bus Line
-	7200 10250 7200 10350
-Wire Bus Line
-	7200 10350 7200 10450
-Wire Bus Line
-	7200 10450 7200 10550
-Wire Bus Line
-	7200 10550 7200 10650
-Wire Bus Line
-	7200 10650 7200 10750
-Wire Bus Line
-	7200 10750 7200 10850
-Wire Bus Line
-	7200 10850 7200 10950
-Wire Bus Line
-	7200 10950 7200 11050
-Wire Bus Line
-	7200 11050 7200 11150
-Wire Bus Line
-	7200 11150 7200 11250
-Wire Bus Line
-	7200 11250 7200 11950
-Wire Bus Line
-	7200 11950 7200 12050
-Wire Bus Line
-	7200 12050 7200 12150
-Wire Bus Line
-	7200 12150 7200 12250
-Wire Bus Line
-	7200 12250 7200 12350
-Wire Bus Line
-	7200 12350 7200 12450
-Wire Bus Line
-	7200 12450 7200 12550
-Wire Bus Line
-	7200 12550 7200 12650
 Connection ~ 7700 5950
 Wire Wire Line
 	7700 5950 8650 5950
@@ -4309,20 +3932,6 @@ Wire Wire Line
 	19650 6350 20750 6350
 Wire Wire Line
 	19650 6450 20750 6450
-Wire Bus Line
-	20850 5950 20850 6050
-Wire Bus Line
-	20850 6050 20850 6150
-Wire Bus Line
-	20850 6150 20850 6250
-Wire Bus Line
-	20850 6250 20850 6350
-Wire Bus Line
-	20850 6350 20850 6450
-Wire Bus Line
-	20850 6450 20850 6550
-Wire Bus Line
-	20850 6550 20850 7600
 Wire Wire Line
 	7300 5650 8200 5650
 Wire Wire Line
@@ -4474,36 +4083,6 @@ Wire Wire Line
 	9350 11250 9600 11250
 Wire Wire Line
 	9350 11350 9600 11350
-Wire Bus Line
-	9700 8950 9700 9050
-Wire Bus Line
-	9700 9050 9700 9150
-Wire Bus Line
-	9700 9150 9700 9250
-Wire Bus Line
-	9700 9250 9700 9350
-Wire Bus Line
-	9700 9350 9700 9450
-Wire Bus Line
-	9700 9450 9700 9550
-Wire Bus Line
-	9700 9550 9700 9650
-Wire Bus Line
-	9700 9650 9700 10550
-Wire Bus Line
-	9700 10550 9700 10650
-Wire Bus Line
-	9700 10650 9700 10750
-Wire Bus Line
-	9700 10750 9700 10850
-Wire Bus Line
-	9700 10850 9700 10950
-Wire Bus Line
-	9700 10950 9700 11050
-Wire Bus Line
-	9700 11050 9700 11150
-Wire Bus Line
-	9700 11150 9700 11250
 Wire Wire Line
 	7950 8150 7300 8150
 Wire Wire Line
@@ -4520,54 +4099,6 @@ Wire Wire Line
 	7950 7550 7300 7550
 Wire Wire Line
 	7300 7450 7950 7450
-Wire Bus Line
-	7200 5150 7200 5650
-Wire Bus Line
-	7200 5650 7200 5750
-Wire Bus Line
-	7200 5750 7200 6350
-Wire Bus Line
-	7200 6350 7200 6950
-Wire Bus Line
-	7200 6950 7200 7550
-Wire Bus Line
-	7200 7550 7200 7650
-Wire Bus Line
-	7200 7650 7200 7750
-Wire Bus Line
-	7200 7750 7200 7850
-Wire Bus Line
-	7200 7850 7200 7950
-Wire Bus Line
-	7200 7950 7200 8050
-Wire Bus Line
-	7200 8050 7200 8150
-Wire Bus Line
-	7200 8150 7200 8250
-Wire Bus Line
-	7200 8250 7200 8750
-Wire Bus Line
-	7200 8750 7200 8850
-Wire Bus Line
-	7200 8850 7200 8950
-Wire Bus Line
-	7200 8950 7200 9050
-Wire Bus Line
-	7200 9050 7200 9150
-Wire Bus Line
-	7200 9150 7200 9250
-Wire Bus Line
-	7200 9250 7200 9350
-Wire Bus Line
-	7200 9350 7200 9450
-Wire Bus Line
-	7200 9450 7200 9550
-Wire Bus Line
-	7200 9550 7200 9650
-Wire Bus Line
-	7200 9650 7200 9750
-Wire Bus Line
-	7200 9750 7200 9850
 Wire Wire Line
 	7700 10050 7950 10050
 Wire Wire Line
@@ -4586,90 +4117,6 @@ Wire Wire Line
 	9350 8050 10300 8050
 Wire Wire Line
 	9350 8150 10300 8150
-Wire Bus Line
-	10400 5150 10400 5750
-Wire Bus Line
-	10400 5750 10400 5850
-Wire Bus Line
-	10400 5850 10400 5950
-Wire Bus Line
-	10400 5950 10400 6050
-Wire Bus Line
-	10400 6050 10400 6150
-Wire Bus Line
-	10400 6150 10400 6350
-Wire Bus Line
-	10400 6350 10400 6650
-Wire Bus Line
-	10400 6650 10400 6750
-Wire Bus Line
-	10400 6750 10400 6850
-Wire Bus Line
-	10400 6850 10400 6950
-Wire Bus Line
-	10400 6950 10400 7050
-Wire Bus Line
-	10400 7050 10400 7150
-Wire Bus Line
-	10400 7150 10400 7250
-Wire Bus Line
-	10400 7250 10400 7350
-Wire Bus Line
-	10400 7350 10400 7550
-Wire Bus Line
-	10400 7550 10400 7650
-Wire Bus Line
-	10400 7650 10400 7750
-Wire Bus Line
-	10400 7750 10400 7850
-Wire Bus Line
-	10400 7850 10400 7950
-Wire Bus Line
-	10400 7950 10400 8050
-Wire Bus Line
-	10400 8050 10400 8150
-Wire Bus Line
-	10400 8150 10400 8250
-Wire Bus Line
-	10400 8250 10400 8350
-Wire Bus Line
-	10400 8350 10400 8450
-Wire Bus Line
-	10400 8450 10400 8550
-Wire Bus Line
-	10400 8550 10400 8650
-Wire Bus Line
-	10400 8650 10400 8750
-Wire Bus Line
-	10400 8750 10400 8850
-Wire Bus Line
-	10400 8850 10400 8950
-Wire Bus Line
-	10400 8950 10400 9050
-Wire Bus Line
-	10400 9050 10400 9150
-Wire Bus Line
-	10400 9150 10400 9850
-Wire Bus Line
-	10400 9850 10400 9950
-Wire Bus Line
-	10400 9950 10400 10050
-Wire Bus Line
-	10400 10050 10400 10150
-Wire Bus Line
-	10400 10150 10400 10250
-Wire Bus Line
-	10400 10250 10400 10350
-Wire Bus Line
-	10400 10350 10400 10450
-Wire Bus Line
-	10400 10450 10400 10550
-Wire Bus Line
-	10400 10550 10400 10650
-Wire Bus Line
-	10400 10650 10400 10750
-Wire Bus Line
-	10400 10750 10400 10850
 Wire Wire Line
 	9350 12050 13050 12050
 Wire Wire Line
@@ -4856,86 +4303,6 @@ Wire Wire Line
 	7500 9950 7500 10250
 Wire Wire Line
 	7500 10250 7950 10250
-Wire Bus Line
-	13150 6650 13150 6750
-Wire Bus Line
-	13150 6750 13150 6850
-Wire Bus Line
-	13150 6850 13150 6950
-Wire Bus Line
-	13150 6950 13150 7050
-Wire Bus Line
-	13150 7050 13150 7150
-Wire Bus Line
-	13150 7150 13150 7250
-Wire Bus Line
-	13150 7250 13150 7350
-Wire Bus Line
-	13150 7350 13150 7600
-Wire Bus Line
-	13150 7800 13150 7950
-Wire Bus Line
-	13150 7950 13150 8050
-Wire Bus Line
-	13150 8050 13150 8150
-Wire Bus Line
-	13150 8150 13150 8250
-Wire Bus Line
-	13150 8250 13150 8350
-Wire Bus Line
-	13150 8350 13150 8450
-Wire Bus Line
-	13150 8450 13150 8550
-Wire Bus Line
-	13150 8550 13150 8650
-Wire Bus Line
-	13150 8650 13150 8750
-Wire Bus Line
-	13150 8750 13150 8850
-Wire Bus Line
-	13150 8850 13150 8950
-Wire Bus Line
-	13150 8950 13150 9050
-Wire Bus Line
-	13150 9050 13150 9700
-Wire Bus Line
-	13150 9700 13150 9800
-Wire Bus Line
-	13150 9800 13150 9850
-Wire Bus Line
-	13150 9850 13150 9900
-Wire Bus Line
-	13150 9900 13150 9950
-Wire Bus Line
-	13150 9950 13150 10000
-Wire Bus Line
-	13150 10000 13150 10050
-Wire Bus Line
-	13150 10050 13150 10150
-Wire Bus Line
-	13150 10150 13150 10250
-Wire Bus Line
-	13150 10250 13150 10350
-Wire Bus Line
-	13150 10350 13150 10450
-Wire Bus Line
-	13150 10450 13150 10550
-Wire Bus Line
-	13150 10550 13150 11950
-Wire Bus Line
-	13150 11950 13150 12050
-Wire Bus Line
-	13150 12050 13150 12150
-Wire Bus Line
-	13150 12150 13150 12250
-Wire Bus Line
-	13150 12250 13150 12350
-Wire Bus Line
-	13150 12350 13150 12450
-Wire Bus Line
-	13150 12450 13150 12550
-Wire Bus Line
-	13150 12550 13150 12650
 Wire Wire Line
 	13250 12750 14500 12750
 Wire Wire Line
@@ -5207,23 +4574,366 @@ Wire Notes Line
 	16500 13400 16500 12000
 Wire Notes Line
 	16500 12000 23150 12000
-Text Notes 850  14150 0    217  ~ 0
-DIGITAL STUFF
-Text Notes 900  14800 0    217  ~ 0
-ANALOGUE STUFF
 Wire Notes Line
 	500  17250 10400 17250
 Wire Notes Line
 	7950 17250 7950 19200
 Wire Notes Line
 	10400 17250 10400 19200
-Text Notes 900  17600 0    138  ~ 0
-CAPACITOR BARGAINS
-Text Notes 8400 17600 0    138  ~ 0
-CHUNNEL
 Connection ~ 9350 4150
-Text Notes 19850 3450 0    60   ~ 0
-STREAM\nENCODER/DECODER\n341-0180
-Text Notes 14400 7500 0    60   ~ 0
-PIGGYBACK ROM: 341-0182
+Wire Wire Line
+	8100 15900 7850 15900
+Wire Wire Line
+	8900 15900 9000 15700
+Wire Wire Line
+	7750 15900 7850 16100
+Wire Wire Line
+	7850 16100 7850 16250
+$Comp
+L applenet-rescue:GND #PWR0101
+U 1 1 601E239E
+P 8500 16350
+F 0 "#PWR0101" H 8500 16100 50  0001 C CNN
+F 1 "GND" H 8505 16177 50  0000 C CNN
+F 2 "" H 8500 16350 50  0001 C CNN
+F 3 "" H 8500 16350 50  0001 C CNN
+	1    8500 16350
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:R R1
+U 1 1 5BF20323
+P 9200 16400
+F 0 "R1" V 9280 16400 50  0000 C CNN
+F 1 "27" V 9200 16400 50  0000 C CNN
+F 2 "" V 9130 16400 50  0000 C CNN
+F 3 "" H 9200 16400 50  0000 C CNN
+	1    9200 16400
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:GNDA #PWR044
+U 1 1 5BF5B252
+P 9000 16550
+F 0 "#PWR044" H 9000 16300 50  0001 C CNN
+F 1 "GNDA" H 9000 16400 50  0000 C CNN
+F 2 "" H 9000 16550 50  0000 C CNN
+F 3 "" H 9000 16550 50  0000 C CNN
+	1    9000 16550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9000 15900 9000 16550
+$Comp
+L applenet-rescue:GNDA #PWR0102
+U 1 1 60E4D798
+P 9200 16550
+F 0 "#PWR0102" H 9200 16300 50  0001 C CNN
+F 1 "GNDA" H 9200 16400 50  0000 C CNN
+F 2 "" H 9200 16550 50  0000 C CNN
+F 3 "" H 9200 16550 50  0000 C CNN
+	1    9200 16550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 15900 9250 15900
+Wire Wire Line
+	9200 15900 9200 16250
+Wire Wire Line
+	7750 16100 7850 15900
+Wire Wire Line
+	8050 16550 8050 16100
+Wire Wire Line
+	8050 16100 8100 16100
+Wire Wire Line
+	8900 15700 9000 15900
+Wire Wire Line
+	8900 16100 9250 16100
+Wire Wire Line
+	9000 15700 9250 15700
+Wire Wire Line
+	5400 15800 5300 15800
+Wire Wire Line
+	5400 15400 5400 15800
+Connection ~ 6600 16100
+Connection ~ 6600 15700
+Connection ~ 5800 16200
+Connection ~ 5800 15900
+Wire Wire Line
+	6850 16100 6950 16100
+Wire Wire Line
+	6600 16100 6850 16100
+Connection ~ 6850 16100
+Wire Wire Line
+	6850 15700 6950 15700
+Wire Wire Line
+	6600 15700 6850 15700
+Connection ~ 6850 15700
+Wire Wire Line
+	6600 16400 6850 16400
+Wire Wire Line
+	3700 16400 6600 16400
+Connection ~ 6600 16400
+Wire Wire Line
+	5300 16000 5500 16000
+Wire Wire Line
+	5500 16000 5500 15400
+Wire Wire Line
+	6600 15400 6850 15400
+Wire Wire Line
+	5500 15400 6600 15400
+Connection ~ 6600 15400
+Wire Wire Line
+	3800 15800 3600 15800
+Wire Wire Line
+	3600 15800 3600 15900
+Wire Wire Line
+	3600 15400 3600 15800
+Wire Wire Line
+	3600 15400 5400 15400
+Wire Wire Line
+	3950 16300 5400 16300
+Wire Wire Line
+	5400 16300 5400 15900
+Wire Wire Line
+	5400 15900 5300 15900
+Wire Wire Line
+	3950 16100 3950 16300
+Wire Wire Line
+	3400 15700 3800 15700
+Wire Wire Line
+	3050 15700 3400 15700
+Wire Wire Line
+	3400 16100 3950 16100
+Wire Wire Line
+	3050 16100 3400 16100
+Wire Wire Line
+	3600 15900 3450 15900
+Connection ~ 3600 15800
+Wire Wire Line
+	6100 15900 6950 15900
+Wire Wire Line
+	5800 15900 6100 15900
+Connection ~ 6100 15900
+Wire Wire Line
+	5800 16550 5800 16200
+Wire Wire Line
+	5800 16200 6100 16200
+Wire Wire Line
+	5800 15900 5800 15200
+Connection ~ 3400 15700
+Wire Wire Line
+	3050 15700 3050 15800
+Wire Wire Line
+	3050 16000 3050 16100
+Connection ~ 3400 16100
+Text GLabel 2150 15900 0    60   Input ~ 0
+DATA_OUT
+$Comp
+L applenet-rescue:TEST_1P TP6
+U 1 1 5BF0887E
+P 3450 15900
+F 0 "TP6" V 3450 16150 50  0000 C CNN
+F 1 "TEST_1P" H 3450 16100 50  0001 C CNN
+F 2 "" H 3650 15900 50  0000 C CNN
+F 3 "" H 3650 15900 50  0000 C CNN
+	1    3450 15900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L applenet-rescue:TEST_1P TP3
+U 1 1 5BF073E8
+P 3400 16100
+F 0 "TP3" H 3400 16300 50  0000 C CNN
+F 1 "TEST_1P" H 3400 16300 50  0001 C CNN
+F 2 "" H 3600 16100 50  0000 C CNN
+F 3 "" H 3600 16100 50  0000 C CNN
+	1    3400 16100
+	-1   0    0    1   
+$EndComp
+$Comp
+L applenet-rescue:TEST_1P TP4
+U 1 1 5BF07052
+P 3400 15700
+F 0 "TP4" H 3400 15900 50  0000 C CNN
+F 1 "TEST_1P" H 3400 15900 50  0001 C CNN
+F 2 "" H 3600 15700 50  0000 C CNN
+F 3 "" H 3600 15700 50  0000 C CNN
+	1    3400 15700
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:VDD #PWR029
+U 1 1 5BF054E3
+P 6400 15200
+F 0 "#PWR029" H 6400 15050 50  0001 C CNN
+F 1 "VDD" H 6400 15350 50  0000 C CNN
+F 2 "" H 6400 15200 50  0000 C CNN
+F 3 "" H 6400 15200 50  0000 C CNN
+	1    6400 15200
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:INDUCTOR L5
+U 1 1 5BF018A2
+P 6100 15200
+F 0 "L5" V 6050 15200 50  0000 C CNN
+F 1 "15uH" V 6200 15200 50  0000 C CNN
+F 2 "" H 6100 15200 50  0000 C CNN
+F 3 "" H 6100 15200 50  0000 C CNN
+	1    6100 15200
+	0    1    1    0   
+$EndComp
+$Comp
+L applenet-rescue:GND #PWR027
+U 1 1 5BEFE98E
+P 5800 16550
+F 0 "#PWR027" H 5800 16300 50  0001 C CNN
+F 1 "GND" H 5800 16400 50  0000 C CNN
+F 2 "" H 5800 16550 50  0000 C CNN
+F 3 "" H 5800 16550 50  0000 C CNN
+	1    5800 16550
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:CP1 C16
+U 1 1 5BEFCC96
+P 6100 16050
+F 0 "C16" H 6150 15950 50  0000 L CNN
+F 1 "10" H 6150 16150 50  0000 L CNN
+F 2 "" H 6100 16050 50  0000 C CNN
+F 3 "" H 6100 16050 50  0000 C CNN
+	1    6100 16050
+	-1   0    0    1   
+$EndComp
+$Comp
+L applenet-rescue:C C15
+U 1 1 5BEFCC90
+P 5800 16050
+F 0 "C15" H 5650 16150 50  0000 L CNN
+F 1 "0.1" H 5650 15950 50  0000 L CNN
+F 2 "" H 5838 15900 50  0000 C CNN
+F 3 "" H 5800 16050 50  0000 C CNN
+	1    5800 16050
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:TEST_1P TP1
+U 1 1 5BEF1020
+P 6600 15700
+F 0 "TP1" H 6600 15900 50  0000 C CNN
+F 1 "TEST_1P" H 6600 15900 50  0001 C CNN
+F 2 "" H 6800 15700 50  0000 C CNN
+F 3 "" H 6800 15700 50  0000 C CNN
+	1    6600 15700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L applenet-rescue:C C13
+U 1 1 5BEF0F24
+P 6850 15550
+F 0 "C13" H 6875 15650 50  0000 L CNN
+F 1 "6.8nF" H 6875 15450 50  0000 L CNN
+F 2 "" H 6888 15400 50  0000 C CNN
+F 3 "" H 6850 15550 50  0000 C CNN
+	1    6850 15550
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:R R16
+U 1 1 5BEF0F1E
+P 6600 15550
+F 0 "R16" V 6680 15550 50  0000 C CNN
+F 1 "39" V 6600 15550 50  0000 C CNN
+F 2 "" V 6530 15550 50  0000 C CNN
+F 3 "" H 6600 15550 50  0000 C CNN
+	1    6600 15550
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:TEST_1P TP2
+U 1 1 5BEEFD7A
+P 6600 16100
+F 0 "TP2" H 6600 16300 50  0000 C CNN
+F 1 "TEST_1P" H 6600 16300 50  0001 C CNN
+F 2 "" H 6800 16100 50  0000 C CNN
+F 3 "" H 6800 16100 50  0000 C CNN
+	1    6600 16100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L applenet-rescue:C C14
+U 1 1 5BEEAC6B
+P 6850 16250
+F 0 "C14" H 6875 16350 50  0000 L CNN
+F 1 "6.8nF" H 6875 16150 50  0000 L CNN
+F 2 "" H 6888 16100 50  0000 C CNN
+F 3 "" H 6850 16250 50  0000 C CNN
+	1    6850 16250
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:R R17
+U 1 1 5BEEA95E
+P 6600 16250
+F 0 "R17" V 6680 16250 50  0000 C CNN
+F 1 "39" V 6600 16250 50  0000 C CNN
+F 2 "" V 6530 16250 50  0000 C CNN
+F 3 "" H 6600 16250 50  0000 C CNN
+	1    6600 16250
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:157-0020 T2
+U 1 1 5BEE01E8
+P 7350 15900
+F 0 "T2" H 7350 16150 50  0000 C CNN
+F 1 "157-0020" H 7350 15600 50  0000 C CNN
+F 2 "" H 7350 15900 50  0000 C CNN
+F 3 "" H 7350 15900 50  0000 C CNN
+	1    7350 15900
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:74265 UE6
+U 1 1 5BDCF18E
+P 2600 15900
+F 0 "UE6" H 2600 16100 60  0000 C CNN
+F 1 "74265" H 2600 15700 60  0000 C CNN
+F 2 "" H 2600 15900 60  0000 C CNN
+F 3 "" H 2600 15900 60  0000 C CNN
+	1    2600 15900
+	1    0    0    -1  
+$EndComp
+$Comp
+L applenet-rescue:75453 UF7
+U 1 1 5BDCEFDC
+P 4550 15850
+F 0 "UF7" H 4550 15750 50  0000 C CNN
+F 1 "75453" H 4550 15950 50  0000 C CNN
+F 2 "" H 5100 16150 50  0001 C CNN
+F 3 "" H 5100 16150 50  0001 C CNN
+	1    4550 15850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 15700 8100 15700
+Wire Wire Line
+	3700 16400 3700 15900
+Wire Wire Line
+	3700 15900 3800 15900
+Wire Bus Line
+	20850 5950 20850 7600
+Wire Bus Line
+	13150 6650 13150 7600
+Wire Bus Line
+	9700 8950 9700 11250
+Wire Bus Line
+	7200 5150 7200 9850
+Wire Bus Line
+	7200 10250 7200 12650
+Wire Bus Line
+	13150 7800 13150 12650
+Wire Bus Line
+	10400 5150 10400 10850
 $EndSCHEMATC
