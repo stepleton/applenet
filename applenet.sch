@@ -5,8 +5,8 @@ $Descr User 23622 19685
 encoding utf-8
 Sheet 1 1
 Title "Inferred schematic for the AppleNet network adaptor for Lisa"
-Date "2020-07-24"
-Rev "003 (DRAFT!)"
+Date "2020-08-10"
+Rev "004 (DRAFT!)"
 Comp ""
 Comment1 "London"
 Comment2 "stepleton@gmail.com"
@@ -4434,9 +4434,7 @@ Wire Wire Line
 Wire Wire Line
 	17100 1300 17100 2150
 Wire Wire Line
-	18800 3300 18800 2950
-Wire Wire Line
-	18800 2950 19500 2950
+	18800 3300 18800 2850
 Wire Wire Line
 	16900 2950 16900 1900
 Wire Wire Line
@@ -4477,7 +4475,7 @@ Wire Wire Line
 	14350 4850 16400 4850
 Connection ~ 16400 7050
 Wire Wire Line
-	18700 2750 18700 3200
+	18700 2750 18700 2950
 Wire Wire Line
 	18700 3200 16700 3200
 Wire Wire Line
@@ -4922,6 +4920,9 @@ Wire Wire Line
 	3700 16400 3700 15900
 Wire Wire Line
 	3700 15900 3800 15900
+Connection ~ 18800 2850
+Wire Wire Line
+	19500 2950 18700 2950
 Wire Bus Line
 	20850 5950 20850 7600
 Wire Bus Line
@@ -4936,4 +4937,7 @@ Wire Bus Line
 	13150 7800 13150 12650
 Wire Bus Line
 	10400 5150 10400 10850
+Connection ~ 18700 2950
+Wire Wire Line
+	18700 2950 18700 3200
 $EndSCHEMATC
