@@ -1,0 +1,979 @@
+* Boot ROM disassembly commentary for the AppleNet network card for Apple Lisa.
+*
+* This file is part of an effort to understand how the AppleNet card works.
+* Companion efforts include the reverse-engineered schematic at
+*    https://github.com/stepleton/applenet/blob/master/applenet.pdf
+* as well as an attempt to understand the Z8 code for the network card's
+* microcontroller (barely begun at time of writing).
+*
+*
+* The code in this boot ROM includes some oddities, like:
+*
+* - Suspicious writes to low memory locations like $16C and $110. The latter is
+*   very strange, since that's where the boot ROM likes to keep a pointer to
+*   the bottom of screen memory. The AppleNet card doesn't seem to be doing
+*   anything screen related; maybe it's expecting to work with an older version
+*   of the ROM that stores something else there.
+*
+* - The routine at address $3B2 in the boot ROM --- if you can figure out what
+*   it's doing, you are a clever person indeed!
+*
+* - <placeholder... got more?>
+*
+*
+* Some things we already know about the way the network card works (it may help
+* to refer to the schematic listed above):
+*
+* - Software uses a mixture of 16-bit-wide 68000-style memory-mapped peripheral
+*   access and 8-bit wide 6800-style access to talk to the network card. The
+*   16-bit accesses are used as signals to negotiate whether the Lisa can
+*   read or modify the card's memory; once set, it does so via 8-bit accesses.
+*   The handshaking works as follows:
+*
+*    1. First, the Lisa loops on reading a 16-bit value from
+*       (slot low memory address)+4096, leaving the loop when the value goes
+*       negative. Here is why:
+*
+*       On the card, let's assume that the MCU is holding 0P6 high; this is the
+*       clear input to the JK flip-flop UF1A. The high address bit in the +4096
+*       access then raises the J input, while the simultaneous lowering of ~SLn
+*       pulses the clock input. This then raises the Q output which raises BD15
+*       on the expansion bus, causing the value read by the Lisa to be negative.
+*
+*       It also lowers UF1A's ~Q output, which feeds into UF1B, which will
+*       lower 3P0 and raise ~UD1_OE. This takes control of the card's address
+*       bus away from the MCU (by silencing UD1) and gives it to the Lisa.
+*
+*    2. The Lisa can now move on to accessing the SRAM by reading or writin
+*       every other byte (using the MOVEP instruction) at addresses starting
+*       from card offset +8192. Because the access lowers ~SHn, it prevents
+*       UF1B from being clocked, which means the MCU can't take over the
+*       address bus in the meantime.
+*
+*   The Lisa will continue to be able to access the card's memory until the MCU
+*   lowers 0P6, which resets UF1A and ultimately returns control of the card's
+*   address bus to the MCU. As long as 0P6 is low, the 16-bit read from +4096
+*   will never be negative, which likely makes the loop in step 1 an effective
+*   way to wait until the card is "idle."
+*
+*
+* For handy reference, here's the disassembly command I've been using (replace
+* start and stop addresses as appropriate):
+*
+*    m68k-linux-gnu-objdump -D applenet.rom \
+*        -b binary -m68000 --start-address=14 --stop-address=0x220
+*
+*
+* Document history:
+*
+*   2020-09-01: Initial release
+*
+*
+* Contributions welcome: pull requests to http://github.com/stepleton/applenet
+
+
+***
+*** LISA EXPANSION CARD HEADER
+***
+
+00000000: e001 02ba 6008 6002 04bb
+      | Type code: e001 - Bootable, has status program, has an icon, not a test
+      |                   card. ID: 001 (AppleNet card).
+      |           Word count: 02ba - 698 words, 1396 bytes.
+      | Enter status routine: 6008 - BRA.S $0E (2009 ...)
+      |   Enter boot routine: 6002 - BRA.S $0A (6000 ...)
+      |         Icon pointer: 04bb
+
+
+
+
+00000000:                          6000 00d0
+      | Boot routine trampoline from $0A: 6000 00d0 - BRA.W $DC (66c2 ...)
+
+
+
+
+***
+*** STATUS AND BOOT PROGRAM CODE
+***
+
+00000000:                                    2009  ....`.`...`... .
+00000010: 0280 00ff fffe 2240 4dfa 0532 2c89 21c9  ......"@M..2,.!.
+00000020: 016c 41ee 025a 4eb9 00fe 00c4 6518 303c  .lA..ZN.....e.0<
+00000030: 005e 4e75 4240 4242 c0fc 000a 1418 d042  .^NuB@BB.......B
+00000040: 5341 6ef4 4e75 41e8 0010 43fa 04dc 7203  SAn.NuA...C...r.
+00000050: 61e2 1340 0003 7205 61da 3340 0004 2256  a..@..r.a.3@.."V
+00000060: 41fa 04be 2210 41e9 2000 4a69 1000 6afa  A...".A. .Ji..j.
+00000070: 03c8 0001 03c8 0009 03c8 0011 03c8 0019  ................
+00000080: 4a51 6ae6 4a69 1000 6afa 0308 0005 4a51  JQj.Ji..j.....JQ
+00000090: 6af2 4a01 6bee e049 6706 303c 005d 4e75  j.J.k..Ig.0<.]Nu
+000000a0: 4281 4a69 1000 6afa 03c8 0009 03c8 0011  B.Ji..j.........
+000000b0: 03c8 0019 4a51 6aea 426e 0004 45fa 0466  ....JQj.Bn..E..f
+000000c0: 720e 303c 05c0 6100 01da 303c 0082 725c  r.0<..a...0<..r\
+000000d0: 740e 6100 00e6
+
+      | $E - Status program
+      |
+      | Args:
+      |   A1: Slot low select address
+      | Notes:
+      |   Returns with error code in D0; $00 means success
+      |   Trashes D0-D2/A0-A2
+   e:	2009           	movel %a1,%d0        | Copy slot address to D0
+  10:	0280 00ff fffe 	andil #$FFFFFE,%d0   | Clear lsbit
+  16:	2240           	moveal %d0,%a1       | Place result back in A1
+
+  18:	4dfa 0532      	lea %pc@(0x54c),%fp  | Offset $54C ("Scratch") into a6
+  1c:	2c89           	movel %a1,%fp@       | Copy slot address there
+  1e:	21c9 016c      	movel %a1,0x16c      | And into memory location $16C?
+
+      | Obtain AppleNet number from the Lisa
+      |
+      | FYI: the Lisa serial number is loaded into 32 successive bytes, and only
+      | the low nibble of each byte contains information (upper nibble should be
+      | 0x0). Format of the nibbles is:
+      |     0                   16                   32
+      |     XXPP YYDD DSSS SXXX  FFFN NNNN XXXX XXXX
+      | X: ignore, P: plant code, Y: year, D: date, S: serial,
+      | F: AppleNet prefix, N: AppleNet number
+      |
+      | Uses the ROM's $FE00C4 routine for recovering system serial number
+      | and AppleNet number information from the video state ROM
+      |
+      | FYI: The $FE00C4 routine preserves A0 but little else.
+  22:	41ee 025a      	lea %fp@(602),%a0    | Point A0 to offset $7a6
+  26:	4eb9 00fe 00c4 	jsr 0xfe00c4         | Load system serial number to (A0)
+  2c:	6518           	bcss 0x46            | If a success, jump ahead to 46
+  2e:	303c 005e      	movew #94,%d0        | Prepare to report Error 94
+  32:	4e75           	rts                  | Return to the boot ROM
+
+      | $34 - This nested routine packs a number of low nibbles in RAM into D0.
+      | It's probably most useful for processing the serial number information
+      | loaded from ROM routine $FE00C4, which "saves the serial number in
+      | low nibbles of 32 consecutive byte field (sic)." The upper nibbles
+      | of the byte should be 0x0 to avoid clobbering low nibbles.
+      |
+      | Wonder if MULU.W is used because the result is a longword, so it can
+      | load up to five nibbles (as found in an AppleNet address)?
+      |
+      | Args:
+      |   D1: Number of nibbles to read
+      |   A0: Where to read them from
+      | Notes:
+      |   Resulting packed nibbles in D0.W
+      |   Trashes D0-D2/A0
+  34:	4240           	clrw %d0             | Clear D0 and D2
+  36:	4242           	clrw %d2
+  38:	c0fc 000a      	muluw #10,%d0        | Shift left by four bits
+  3c:	1418           	moveb %a0@+,%d2      | Load byte from (A0)++ into D2
+  3e:	d042           	addw %d2,%d0         | Then add it to D0
+  40:	5341           	subqw #1,%d1         | Decrement loop counter
+  42:	6ef4           	bgts 0x38            | Repeat while counter > 0
+  44:	4e75           	rts
+
+      | Resuming the status routine... get AppleNet prefix; save its low byte
+  46:	41e8 0010      	lea %a0@(16),%a0     | Advance to ANet addr
+  4a:	43fa 04dc      	lea %pc@(0x528),%a1  | Point A1 at a storage location
+  4e:	7203           	moveq #3,%d1         | Copy 3 nibbles: the ANet prefix
+  50:	61e2           	bsrs 0x34            | Go load the nibbles
+  52:	1340 0003      	moveb %d0,%a1@(3)    | ANet prefix LSbyte into scratch+3
+
+      | Get AppleNet number; save its low word
+  56:	7205           	moveq #5,%d1         | Five nibbles in the ANet number
+  58:	61da           	bsrs 0x34            | Go load the nibbles
+  5a:	3340 0004      	movew %d0,%a1@(4)    | Save LSword into scratch+4
+
+      | Get ready to do control-registerey stuff on the ANet card?
+      | (Maybe A6 isn't clobbered by the $FE00C4 ROM routine? Hmm.)
+  5e:	2256           	moveal %fp@,%a1      | Slot address from "scratch" => A1
+  60:	41fa 04be      	lea %pc@(0x520),%a0  | A0 points to offset $520
+  64:	2210           	movel %a0@,%d1       | Copy init data? from there to D1
+  66:	41e9 2000      	lea %a1@(8192),%a0   | Slot address+8k into A0
+      | Waiting for the card to be ready, then load the same data ($5C000081)
+      | into the bottom of the card's SRAM
+  6a:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+  6e:	6afa           	bpls 0x6a            | ...< 0 at slot addr + 4k!
+  70:	03c8 0001      	movepl %d1,%a0@(1)   | Odd addresses mean that these...
+  74:	03c8 0009      	movepl %d1,%a0@(9)   | ...values wind up on the low...
+  78:	03c8 0011      	movepl %d1,%a0@(17)  | ...order half of the data bus.
+  7c:	03c8 0019      	movepl %d1,%a0@(25)
+  80:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+  82:	6ae6           	bpls 0x6a            | ...< 0 at slot addr!
+      | Waiting for the card to be ready... or failing...
+  84:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+  88:	6afa           	bpls 0x84            | ...< 0 at slot addr + 8k!
+  8a:	0308 0005      	movepw %a0@(5),%d1   | Copy slot addr+8k+5 to D1
+  8e:	4a51           	tstw %a1@            | If slot addr is still >= 0...
+  90:	6af2           	bpls 0x84            | ...resume at the last tight loop!
+  92:	4a01           	tstb %d1             | If copied data LSbyte is neg...
+  94:	6bee           	bmis 0x84            | ...resume at the last tight loop!
+  96:	e049           	lsrw #8,%d1          | Shift MSbyte down to LSbyte
+  98:	6706           	beqs 0xa0            | Unless it's zero, quit to the...
+  9a:	303c 005d      	movew #93,%d0        | ...ROM with error 93 (bad status)
+  9e:	4e75           	rts
+      | Now writing zeros to most of the places we just wrote...
+  a0:	4281           	clrl %d1             | Dispose of copied data
+  a2:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+  a6:	6afa           	bpls 0xa2            | ...< 0 at slot addr + 4k!
+  a8:	03c8 0009      	movepl %d1,%a0@(9)   | Load #$0.L into the last three...
+  ac:	03c8 0011      	movepl %d1,%a0@(17)  | ...locations we wrote to above
+  b0:	03c8 0019      	movepl %d1,%a0@(25)
+  b4:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+  b6:	6aea           	bpls 0xa2            | ...< 0 at slot addr!
+
+  b8:	426e 0004      	clrw %fp@(4)         | Clear "control register index"
+  bc:	45fa 0466      	lea %pc@(0x524),%a2  | Point A2 at offset $524
+  c0:	720e           	moveq #14,%d1        | We'll write 14 bytes to the card
+  c2:	303c 05c0      	movew #1472,%d0      | At card SRAM offset 1472
+  c6:	6100 01da      	bsrw 0x2a2           | Invoke $2A2 subroutine
+
+  ca:	303c 0082      	movew #130,%d0       | Params for the "cmd routine"...
+  ce:	725c           	moveq #92,%d1
+  d0:	740e           	moveq #14,%d2        | 14: how many bytes we just wrote?
+  d2:	6100 00e6      	bsrw 0x1ba           | Call the "command routine"
+  d6:	66c2           	bnes 0x9a            | Quit to ROM, error 93 if nonzero
+  d8:	4280           	clrl %d0             | Zero error code means success
+  da:	4e75           	rts                  | Back to the ROM
+
+
+
+
+000000d0:                               42b8 0110  t.a...f.B.NuB...
+000000e0: 4dfa 046a 45ee 000a 41fa 043e 43ea 0002  M..jE...A..>C...
+000000f0: 22d8 3290 6100 0382 6100 02b8 67f6 0c2a  ".2.a...a...g..*
+00000100: 0005 0011 66ee 6100 0294 b06a 001c 66e4  ....f.a....j..f.
+00000110: 1caa 0010 41ea 001e 43ee 025a 303c 0200  ....A...C..Z0<..
+00000120: 6100 0214 41ee 025a 4e90 4dfa 0420 48ae  a...A..ZN.M.. H.
+00000130: 0003 fffc 2d49 fff6 2078 0110 4410 45ee  ....-I.. x..D.E.
+00000140: 000a 323c 0200 302e fffe 6700 006c b041  ..2<..0...g..l.A
+00000150: 6f0a 3541 0018 936e fffe 6008 3540 0018  o.5A...n..`.5@..
+00000160: 426e fffe 356e fffc 0016 526e fffc 157c  Bn..5n....Rn...|
+00000170: 0003 0011 3d7c 0006 fff4 536e fff4 6f36  ....=|....Sn..o6
+00000180: 6100 02f6 6100 022c 67f6 302a 0012 6628  a...a..,g.0*..f(
+00000190: 6100 01d8 66e4 6100 0204 b06a 001c 66da  a...f.a....j..f.
+000001a0: 226e fff6 41ea 001e 302a 0018 6100 0188  "n..A...0*..a...
+000001b0: 2d49 fff6 6088 7001 4e75
+
+      | $DC - Boot program
+      |
+      | Args:
+      |   $54C: Slot low select address -- as stored by the status program
+      | Notes:
+      |   Loads "scratch" address into A6
+      |   Trashes $110 -- SCRNBASE? Pointer to the video memory? Why?
+      |   Trashes D0-D1/A0-A2/A6
+  dc:	42b8 0110      	clrl 0x110           | Clear memory at $110? SCRNBASE?
+  e0:	4dfa 046a      	lea %pc@(0x54c),%fp  | Point A6 at "scratch"
+  e4:	45ee 000a      	lea %fp@(10),%a2     | Point A2 at $002E0000 val. nearby
+  e8:	41fa 043e      	lea %pc@(0x528),%a0  | Point A0 at anet addr. gen'l area
+  ec:	43ea 0002      	lea %a2@(2),%a1      | Point A1 just past A2
+  f0:	22d8           	movel %a0@+,%a1@+    | Copy $0100.010B.0800 there
+  f2:	3290           	movew %a0@,%a1@
+
+  f4:	6100 0382      	bsrw 0x478           | Jump to the $478 routine
+  f8:	6100 02b8      	bsrw 0x3b2           | And now to the $3B2 routine
+  fc:	67f6           	beqs 0xf4            | Was that test word 0? Try again
+  fe:	0c2a 0005 0011 	cmpib #5,%a2@(17)    | Is "scratch"+58+17 5?
+ 104:	66ee           	bnes 0xf4            | If not, try again
+ 106:	6100 0294      	bsrw 0x39c           | Compute the checksum
+ 10a:	b06a 001c      	cmpw %a2@(28),%d0    | Same as "scratch"+58+28?
+ 10e:	66e4           	bnes 0xf4            | If not, try again
+
+      | Copy loaded boot block and boot from it!
+ 110:	1caa 0010      	moveb %a2@(16),%fp@  | "scratch"+58+16 byte to "scratch"
+ 114:	41ea 001e      	lea %a2@(30),%a0     | Copy 512 bytes from...
+ 118:	43ee 025a      	lea %fp@(602),%a1    | ..."scratch"+58+30 to...
+ 11c:	303c 0200      	movew #512,%d0       | ...offset $7A6
+ 120:	6100 0214      	bsrw 0x336
+ 124:	41ee 025a      	lea %fp@(602),%a0    | Point A0 to offset $7A6...
+ 128:	4e90           	jsr %a0@             | ...and jump there to boot!
+
+      | OK, I guess we're back from booting...?
+ 12a:	4dfa 0420      	lea %pc@(0x54c),%fp  | Point A6 at "scratch" again
+ 12e:	48ae 0003 fffc 	movemw %d0-%d1,%fp@(-4)  | Save D0.w-D1.w at "scratch"-4
+ 134:	2d49 fff6      	movel %a1,%fp@(-10)  | Save A1 at "scratch"-10
+ 138:	2078 0110      	moveal 0x110,%a0     | Load from $110 (SCRNBASE?) to A0
+ 13c:	4410           	negb %a0@            | Negate high byte there?
+
+ 13e:	45ee 000a      	lea %fp@(10),%a2     | Point A2 at "scratch"+10
+ 142:	323c 0200      	movew #512,%d1       | 
+ 146:	302e fffe      	movew %fp@(-2),%d0   | D1 from "scratch"-2 => D0?
+ 14a:	6700 006c      	beqw 0x1b8           | If zero, jump ahead to quit
+
+      | Below, how do we know where A1 and A2 point, other than the same place?
+      | A good guess might be "scratch"+58
+ 14e:	b041           	cmpw %d1,%d0         | Is D0 equal to D1 (which is 512)?
+ 150:	6f0a           	bles 0x15c           | If so, skip ahead
+ 152:	3541 0018      	movew %d1,%a2@(24)   | Store D1 at "scratch"+10"24
+ 156:	936e fffe      	subw %d1,%fp@(-2)    | Decrement "scratch"-2
+ 15a:	6008           	bras 0x164           | Skip ahead
+
+ 15c:	3540 0018      	movew %d0,%a2@(24)   | Store D2 at (A2+24)
+ 160:	426e fffe      	clrw %fp@(-2)        | Mark "scratch"-2 as 0
+
+ 164:	356e fffc 0016 	movew %fp@(-4),%a2@(22)  | Copy "scratch"-4 to (A2+22)
+ 16a:	526e fffc      	addqw #1,%fp@(-4)    | Increment "scratch"-4
+ 16e:	157c 0003 0011 	moveb #3,%a2@(17)    | Store 3 at (A2+17)?
+ 174:	3d7c 0006 fff4 	movew #6,%fp@(-12)   | We'll do something six times
+ 17a:	536e fff4      	subqw #1,%fp@(-12)   | Decrement loop counter
+ 17e:	6f36           	bles 0x1b6           | Out of tries; go return
+ 180:	6100 02f6      	bsrw 0x478           | Jump to the $478 routine
+ 184:	6100 022c      	bsrw 0x3b2           | And now to the $3B2 routine
+ 188:	67f6           	beqs 0x180           | Was that test word 0? Try again
+ 18a:	302a 0012      	movew %a2@(18),%d0   | "scratch"+58+18 into D0
+ 18e:	6628           	bnes 0x1b8           | Nonzero? Return (with that error)
+ 190:	6100 01d8      	bsrw 0x36a           | Call $36A to do some checking
+ 194:	66e4           	bnes 0x17a           | Check failed? Return
+
+ 196:	6100 0204      	bsrw 0x39c           | Compute checksum starting at (A2)
+ 19a:	b06a 001c      	cmpw %a2@(28),%d0    | Does checksum match (A2+28)?
+ 19e:	66da           	bnes 0x17a           | If not, jump ahead to return
+
+ 1a0:	226e fff6      	moveal %fp@(-10),%a1   | Restore A1 from "scratch"-10
+ 1a4:	41ea 001e      	lea %a2@(30),%a0     | Point A0 at (A2+30)
+ 1a8:	302a 0018      	movew %a2@(24),%d0   | Restore D0 from (A2+24)
+ 1ac:	6100 0188      	bsrw 0x336           | Do a copy of that many bytes
+ 1b0:	2d49 fff6      	movel %a1,%fp@(-10)  | Save A1 to "scratch"-10
+ 1b4:	6088           	bras 0x13e           | Repeat much of the above
+
+ 1b6:	7001           	moveq #1,%d0         | Mark an error prior to returning?
+ 1b8:	4e75           	rts
+
+
+
+
+000001b0:                          e149 1202 4841  -I..`.p.Nu.I..HA
+000001c0: 4241 1200 302e 0004 2256 41e9 2000 d040  BA..0..."VA. ..@
+000001d0: 41f0 0000 4a69 1000 6afa 03c8 0001 4a51  A...Ji..j.....JQ
+000001e0: 6af2 4a69 1000 6afa 0348 0001 4a51 6af2  j.Ji..j..H..JQj.
+000001f0: 4a01 6bee 302e 0004 5840 0240 000c 3d40  J.k.0...X@.@..=@
+00000200: 0004 e049 4e75
+
+      | $1BA - A routine that sends a command to the network card?
+      | Writes a constructed longword to card SRAM (slot low + 8k) + any of four
+      | consecutive control registers? Increments the control register index,
+      | (saved at offset $550) wrapping around if it goes past the fourth.
+      |
+      | These disassembly comments calls this the "command routine".
+      |
+      | Args:
+      |   D0: First argument to send to the control register
+      |   D1: Second argument to send to the control register
+      |   D2: Third argument to send to the control register
+      |   A6: Address to scratch space (offset $54C)
+      | Notes:
+      |   Trashes D0-D1/A0-A1
+ 1ba:	e149           	lslw #8,%d1          | Create a longword out of D0-D2...
+ 1bc:	1202           	moveb %d2,%d1        | ...LSbytes as diagrammed:
+ 1be:	4841           	swap %d1             | ...   [D1 D2 00 D0]
+ 1c0:	4241           	clrw %d1             | ...assembling it into D1
+ 1c2:	1200           	moveb %d0,%d1
+
+ 1c4:	302e 0004      	movew %fp@(4),%d0    | Copy scratch word at $550 to D0
+ 1c8:	2256           	moveal %fp@,%a1      | Slot low address to A1
+ 1ca:	41e9 2000      	lea %a1@(8192),%a0   | Slot low+8k to A0 (card SRAM)
+ 1ce:	d040           	addw %d0,%d0         | Double scratch word so it can...
+ 1d0:	41f0 0000      	lea %a0@(0,%d0:w),%a0  | ...be a peripheral offset
+
+ 1d4:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 1d8:	6afa           	bpls 0x1d4           | ...< 0 at slot addr + 4k!
+ 1da:	03c8 0001      	movepl %d1,%a0@(1)   | Write our assembled longword
+ 1de:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 1e0:	6af2           	bpls 0x1d4           | ...< 0 at slot addr!
+ 1e2:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 1e6:	6afa           	bpls 0x1e2           | ...< 0 at slot addr + 4k!
+
+ 1e8:	0348 0001      	movepl %a0@(1),%d1   | Read a reply longword
+ 1ec:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 1ee:	6af2           	bpls 0x1e2           | ...< 0 at slot addr!
+ 1f0:	4a01           	tstb %d1             | Repeat read op if LSbyte of...
+ 1f2:	6bee           	bmis 0x1e2           | ...result < 0
+
+ 1f4:	302e 0004      	movew %fp@(4),%d0    | Copy scratch word back to D0
+ 1f8:	5840           	addqw #4,%d0         | Add 4 (0b0100) to it
+ 1fa:	0240 000c      	andiw #12,%d0        | Mask by 0b1100
+ 1fe:	3d40 0004      	movew %d0,%fp@(4)    | Save D0 to scratch word at $550
+ 202:	e049           	lsrw #8,%d1          | Shift second longword byte to...
+ 204:	4e75           	rts                  | ...LSbyte: success if 0?
+
+
+
+
+00000200:                7201 2f0a 2256 41e9 2000  ...INur./."VA. .
+00000210: d040 41f0 0000 300a e248 6416 4a69 1000  .@A...0..Hd.Ji..
+00000220: 6afa 14a8 0001 4a51 6af2 524a 5448 5341  j.....JQj.RJTHSA
+00000230: 6f6a 3401 e84a 6736 48e7 0f00 4a69 1000  oj4..Jg6H...Ji..
+00000240: 6afa 0948 0001 0b48 0009 0d48 0011 0f48  j..H...H...H...H
+00000250: 0019 4a51 6ae6 d0fc 0020 48d2 00f0 d4fc  ..JQj.... H.....
+00000260: 0010 5342 6ed6 0241 000f 4cdf 00f0 3401  ..SBn..A..L...4.
+00000270: e24a 6716 4a69 1000 6afa 0108 0001 4a51  .Jg.Ji..j.....JQ
+00000280: 6af2 34c0 5848 5342 6eea e249 640e 4a69  j.4.XHSBn..Id.Ji
+00000290: 1000 6afa 14a8 0001 4a51 6af2 245f 4e75  ..j.....JQj.$_Nu
+
+      | $208 - Read a block of memory in from the card, starting at the slot
+      | address plus 4096 plus D0 (although internally it has to skip bytes, so
+      | it starts at 8192 plus 2*D0). This routine goes out of its way to read
+      | in chunks...
+      |
+      | Args:
+      |   D0: (w) Offset into card's writable memory
+      |   D1: (w) Number of bytes to read from the card
+      |   A2: Address of memory location receiving the data
+      |   A6: Address of a memory location holding the slot address
+      | Notes:
+      |   Trashes D0-D2/A0-A1
+ 208:	2f0a           	movel %a2,%sp@-      | Save A2 contents into stack
+ 20a:	2256           	moveal %fp@,%a1      | Copy saved slot address to A1
+ 20c:	41e9 2000      	lea %a1@(8192),%a0   | Load slot address+8k to A0
+ 210:	d040           	addw %d0,%d0         | Double D0; get an 8-bit IO offset
+ 212:	41f0 0000      	lea %a0@(0,%d0:w),%a0  | Advance A0 by that amount
+
+      | Test whether the address to collect the data we read is odd
+ 216:	300a           	movew %a2,%d0        | LSword of A2 to D0
+ 218:	e248           	lsrw #1,%d0          | Shift off its LSbit; was it 0?
+ 21a:	6416           	bccs 0x232           | If so, jump ahead to $232
+
+      | Now read one byte to switch to even addresses
+ 21c:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 220:	6afa           	bpls 0x21c           | ...< 0 at slot addr + 4k!
+ 222:	14a8 0001      	moveb %a0@(1),%a2@   | Read (A0+1) byte to (A2)
+ 226:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 228:	6af2           	bpls 0x21c           | ...< 0 at slot addr!
+ 22a:	524a           	addqw #1,%a2         | Advance A2 by 1
+ 22c:	5448           	addqw #2,%a0         | Advance A0 by 2
+ 22e:	5341           	subqw #1,%d1         | Decrement counter, and if its...
+ 230:	6f6a           	bles 0x29c           | ...value <= 0, get ready to quit
+
+      | Now we can read data in 16-byte chunks
+ 232:	3401           	movew %d1,%d2        | Copy byte counter to D2
+ 234:	e84a           	lsrw #4,%d2          | Compute chunks to write; is it 0?
+ 236:	6736           	beqs 0x26e           | Jump to $26E; otherwise:
+ 238:	48e7 0f00      	moveml %d4-%d7,%sp@- | Save D4-D7 on the stack
+ 23c:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 240:	6afa           	bpls 0x23c           | ...< 0 at slot addr + 4k!
+ 242:	0948 0001      	movepl %a0@(1),%d4   | Read in those 16 bytes from...
+ 246:	0b48 0009      	movepl %a0@(9),%d5   | ...the AppleNet card
+ 24a:	0d48 0011      	movepl %a0@(17),%d6
+ 24e:	0f48 0019      	movepl %a0@(25),%d7
+ 252:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 254:	6ae6           	bpls 0x23c           | ...< 0 at slot addr!
+ 256:	d0fc 0020      	addaw #32,%a0        | Advance srcptr 32 bytes
+ 25a:	48d2 00f0      	moveml %d4-%d7,%a2@  | Save data from card in RAM
+ 25e:	d4fc 0010      	addaw #16,%a2        | Advance destptr 16 bytes
+ 262:	5342           	subqw #1,%d2         | Decrement chunk counter
+ 264:	6ed6           	bgts 0x23c           | Loop if chunks left to read
+
+      | Read any remaining whole words
+ 266:	0241 000f      	andiw #15,%d1        | Here are bytes remaining to read
+ 26a:	4cdf 00f0      	moveml %sp@+,%d4-%d7   | Restore D4-D7 from the stack
+ 26e:	3401           	movew %d1,%d2        | Copy bytes remaining to D2
+ 270:	e24a           	lsrw #1,%d2          | Turn into words remaining
+ 272:	6716           	beqs 0x28a           | If none, jump ahead
+ 274:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 278:	6afa           	bpls 0x274           | ...< 0 at slot addr + 4k!
+ 27a:	0108 0001      	movepw %a0@(1),%d0   | Read word from card into D0
+ 27e:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 280:	6af2           	bpls 0x274           | ...< 0 at slot addr!
+ 282:	34c0           	movew %d0,%a2@+      | Save data from card in RAM
+ 284:	5848           	addqw #4,%a0         | Advance srcptr 4 bytes
+ 286:	5342           	subqw #1,%d2         | Decrement word counter
+ 288:	6eea           	bgts 0x274           | Loop if words left to read
+
+      | And finally: read the last ever-lovin' byte
+ 28a:	e249           	lsrw #1,%d1          | Is there one byte left to go?
+ 28c:	640e           	bccs 0x29c           | No, jump ahead to quit
+ 28e:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value
+ 292:	6afa           	bpls 0x28e           | ...< 0 at slot addr + 4k!
+ 294:	14a8 0001      	moveb %a0@(1),%a2@   | Read the darn byte already
+ 298:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 29a:	6af2           	bpls 0x28e           | ...< 0 at slot addr!
+
+      | For exiting the subroutine
+ 29c:	245f           	moveal %sp@+,%a2     | Restore A2 contents from stack
+ 29e:	4e75           	rts
+
+
+
+
+000002a0: 7201 2f0a 2256 41e9 2000 d040 41f0 0000  r./."VA. ..@A...
+000002b0: 300a e248 6416 4a69 1000 6afa 1152 0001  0..Hd.Ji..j..R..
+000002c0: 4a51 6af2 524a 5448 5341 6f66 3401 e84a  JQj.RJTHSAof4..J
+000002d0: 6732 48e7 0f00 4cda 00f0 4a69 1000 6afa  g2H...L...Ji..j.
+000002e0: 09c8 0001 0bc8 0009 0dc8 0011 0fc8 0019  ................
+000002f0: 4a51 6ae6 d0fc 0020 5342 6eda 0241 000f  JQj.... SBn..A..
+00000300: 4cdf 00f0 3401 e24a 6716 301a 4a69 1000  L...4..Jg.0.Ji..
+00000310: 6afa 0188 0001 4a51 6af2 5848 5342 6eea  j.....JQj.XHSBn.
+00000320: e249 640e 4a69 1000 6afa 1152 0001 4a51  .Id.Ji..j..R..JQ
+00000330: 6af2 245f 4e75
+
+      | $2A0 - Write one byte to the card. See below for args D1/A2/A6.
+ 2a0:   moveq #1,%d1
+
+      | $2A2 - Write a block of memory out to the card, starting at the slot
+      | address plus 4096 plus D0 (although internally it has to skip bytes, so
+      | it starts at 8192 plus 2*D0). This routine goes out of its way to write
+      | in chunks...
+      |
+      | Args:
+      |   D0: (w) Offset into card's writable memory
+      |   D1: (w) Number of bytes to write to the card
+      |   A2: Address of data to write to the card
+      |   A6: Address of a memory location holding the slot address
+      | Notes:
+      |   Trashes D0-D2/A0-A1
+ 2a2:	2f0a           	movel %a2,%sp@-      | Save A2 contents into stack
+ 2a4:	2256           	moveal %fp@,%a1      | Copy saved slot address to A1
+ 2a6:	41e9 2000      	lea %a1@(8192),%a0   | Load slot address+8k to A0
+ 2aa:	d040           	addw %d0,%d0         | Double D0; get an 8-bit IO offset
+ 2ac:	41f0 0000      	lea %a0@(0,%d0:w),%a0  | Advance A0 by that amount
+
+      | Test whether the address of writable data is odd
+ 2b0:	300a           	movew %a2,%d0        | LSword of A2 to D0
+ 2b2:	e248           	lsrw #1,%d0          | Shift off its LSbit; was it 0?
+ 2b4:	6416           	bccs 0x2cc           | Jump ahead to $2CC
+
+      | Now write one byte to switch to even addresses
+ 2b6:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 2ba:	6afa           	bpls 0x2b6           | ...< 0 at slot addr + 4k!
+ 2bc:	1152 0001      	moveb %a2@,%a0@(1)   | Write (A2) byte to (A0+1)
+ 2c0:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 2c2:	6af2           	bpls 0x2b6           | ...< 0 at slot addr!
+ 2c4:	524a           	addqw #1,%a2         | Advance A2 by 1
+ 2c6:	5448           	addqw #2,%a0         | Advance A0 by 2
+ 2c8:	5341           	subqw #1,%d1         | Decrement counter, and if its...
+ 2ca:	6f66           	bles 0x332           | ...value <= 0, get ready to quit
+
+      | Now we can write data in 16-byte chunks
+ 2cc:	3401           	movew %d1,%d2        | Copy byte counter to D2
+ 2ce:	e84a           	lsrw #4,%d2          | Compute chunks to write; is it 0?
+ 2d0:	6732           	beqs 0x304           | Jump to $304; otherwise:
+ 2d2:	48e7 0f00      	moveml %d4-%d7,%sp@- | Save D4-D7 on the stack
+ 2d6:	4cda 00f0      	moveml %a2@+,%d4-%d7 | Load next 16 bytes into D4-D7
+ 2da:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 2de:	6afa           	bpls 0x2da           | ...< 0 at slot addr + 4k!
+ 2e0:	09c8 0001      	movepl %d4,%a0@(1)   | Write out those 16 bytes to...
+ 2e4:	0bc8 0009      	movepl %d5,%a0@(9)   | ...the AppleNet card
+ 2e8:	0dc8 0011      	movepl %d6,%a0@(17)
+ 2ec:	0fc8 0019      	movepl %d7,%a0@(25)
+ 2f0:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 2f2:	6ae6           	bpls 0x2da           | ...< 0 at slot addr!
+ 2f4:	d0fc 0020      	addaw #32,%a0        | Advance destptr 32 bytes
+ 2f8:	5342           	subqw #1,%d2         | Decrement chunk counter
+ 2fa:	6eda           	bgts 0x2d6           | Loop if chunks left to write
+
+      | Write any remaining whole words
+ 2fc:	0241 000f      	andiw #15,%d1        | Here are bytes remaining to write
+ 300:	4cdf 00f0      	moveml %sp@+,%d4-%d7   | Restore D4-D7 from the stack
+ 304:	3401           	movew %d1,%d2        | Copy bytes remaining to D2
+ 306:	e24a           	lsrw #1,%d2          | Turn into words remaining
+ 308:	6716           	beqs 0x320           | If none, jump ahead
+ 30a:	301a           	movew %a2@+,%d0      | Load next word to write to D0
+ 30c:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 310:	6afa           	bpls 0x30c           | ...< 0 at slot addr + 4k!
+ 312:	0188 0001      	movepw %d0,%a0@(1)   | Write word out to the card
+ 316:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 318:	6af2           	bpls 0x30c           | ...< 0 at slot addr!
+ 31a:	5848           	addqw #4,%a0         | Advance destptr 4 bytes
+ 31c:	5342           	subqw #1,%d2         | Decrement word counter
+ 31e:	6eea           	bgts 0x30a           | Loop if words left to write
+
+      | And finally: write the last ever-lovin' byte
+ 320:	e249           	lsrw #1,%d1          | Is there one byte left to go?
+ 322:	640e           	bccs 0x332           | No, jump ahead to quit
+ 324:	4a69 1000      	tstw %a1@(4096)      | TIGHT LOOP waiting for value...
+ 328:	6afa           	bpls 0x324           | ...< 0 at slot addr + 4k!
+ 32a:	1152 0001      	moveb %a2@,%a0@(1)   | Write the darn byte already
+ 32e:	4a51           	tstw %a1@            | SO-SO LOOP waiting for value...
+ 330:	6af2           	bpls 0x324           | ...< 0 at slot addr
+
+      | For exiting the subroutine
+ 332:	245f           	moveal %sp@+,%a2     | Restore A2 contents from stack
+ 334:	4e75           	rts
+
+
+
+
+00000330:                3208 d249 e249 6520 3208  j.$_Nu2..I.Ie 2.
+00000340: e249 6404 12d8 5340 3200 e249 5341 6d06  .Id...S@2..ISAm.
+00000350: 32d8 51c9 fffc e248 6402 12d8 4e75 5340  2.Q....Hd...NuS@
+00000360: 6d06 12d8 51c8 fffc 4e75
+
+      | $336 - Forward memcpy
+      |
+      | Args:
+      |   D0: Number of bytes to copy (cannot be zero)
+      |   A0: Source of bytes to copy
+      |   A1: Destination of bytes to copy
+      | Notes:
+      |   Trashes D0-D1/A0-A1
+
+      | Detect if only one address is odd; copy bytewise if so
+ 336:	3208           	movew %a0,%d1        | LSword of A0 to D1
+ 338:	d249           	addw %a1,%d1         | Add in A1?
+ 33a:	e249           	lsrw #1,%d1          | If the result was odd...
+ 33c:	6520           	bcss 0x35e           | ...jump to $35E
+
+      | Copy a single byte if both addresses were odd
+ 33e:	3208           	movew %a0,%d1        | LSword of A0 to D1
+ 340:	e249           	lsrw #1,%d1          | If the result was even...
+ 342:	6404           	bccs 0x348           | ...jump to $348
+ 344:	12d8           	moveb %a0@+,%a1@+    | Otherwise, copy one byte...
+ 346:	5340           	subqw #1,%d0         | ...and decrement the counter
+
+      | Now copy word-wise since we're on an even address
+ 348:	3200           	movew %d0,%d1        | Copy byte count to D1
+ 34a:	e249           	lsrw #1,%d1          | Divide it by two for word count
+ 34c:	5341           	subqw #1,%d1         | Turn into a loop count
+ 34e:	6d06           	blts 0x356           | No words left? Finish off a byte
+ 350:	32d8           	movew %a0@+,%a1@+    | Copy a word
+ 352:	51c9 fffc      	dbf %d1,0x350        | (looping)
+
+      | Finish off any lingering last byte
+ 356:	e248           	lsrw #1,%d0          | Any bytes left?
+ 358:	6402           	bccs 0x35c           | No, skip ahead to quit
+ 35a:	12d8           	moveb %a0@+,%a1@+    | Copy out the last byte
+ 35c:	4e75           	rts
+
+      | Fallback bytewise copy for when only one address is odd
+ 35e:	5340           	subqw #1,%d0         | Turn into a loop counter
+ 360:	6d06           	blts 0x368           | If < 0 already, return
+ 362:	12d8           	moveb %a0@+,%a1@+    |   Copy all 512 bytes to $7A6
+ 364:	51c8 fffc      	dbf %d0,0x362        | (looping)
+ 368:	4e75           	rts
+
+
+
+
+00000360:                          43ee 000a 3029  m...Q...NuC...0)
+00000370: 0018 b06a 0018 6622 3029 0016 b06a 0016  ...j..f"0)...j..
+00000380: 6618 3029 0014 b06a 0014 660e 0c2a 0006  f.0)...j..f..*..
+00000390: 0011 6706 0c2a 0008 0011 4e75
+
+      | $36A -- Compare three words in the midst of a long string to three
+      | words in the midst of the "scratch" + 10 string, starting at
+      | "scratch" + 10 + 20. Then check that the 17th byte of the string is
+      | either 6 or 8. It's possible that the words we're looking for are
+      |
+      |   0004 0000 0200
+      |
+      | but that's only if they haven't been changed by other code.
+      |
+      | Args:
+      |   A2: Address of the string to check
+      |   A6: Address to "scratch" (offset $54C)
+      | Notes:
+      |   Sets Z on success; clears Z on failure
+      |   Trashes D0/A1-A2
+ 36a:	43ee 000a      	lea %fp@(10),%a1     | Point A1 at "scratch"+10
+ 36e:	3029 0018      	movew %a1@(24),%d0   | Load "scratch"+10+24 into D0
+ 372:	b06a 0018      	cmpw %a2@(24),%d0    | Same as (A2+24)?
+ 376:	6622           	bnes 0x39a           | If not, jump to return
+
+ 378:	3029 0016      	movew %a1@(22),%d0   | Load "scratch"+10+22 into D0
+ 37c:	b06a 0016      	cmpw %a2@(22),%d0    | Same as (A2+22)?
+ 380:	6618           	bnes 0x39a           | If not, jump to return, Z unset
+
+ 382:	3029 0014      	movew %a1@(20),%d0   | Load "scratch"+10+20 into D0
+ 386:	b06a 0014      	cmpw %a2@(20),%d0    | Same as (A2+20)?
+ 38a:	660e           	bnes 0x39a           | If not, jump to return, Z unset
+
+ 38c:	0c2a 0006 0011 	cmpib #6,%a2@(17)    | Return happy if (A2+17)...
+ 392:	6706           	beqs 0x39a           | ...is 6 or 8
+ 394:	0c2a 0008 0011 	cmpib #8,%a2@(17)
+ 39a:	4e75           	rts
+
+
+
+
+00000390:                               41ea 001e  ..g..*....NuA...
+000003a0: 4240 343c 0100 6000 0004 d058 51ca fffc  B@4<..`....XQ...
+000003b0: 4e75
+
+      | $39C - Compute a simple checksum of 256 bytes starting at (A2)
+      |
+      | Args:
+      |   A2: Address to start checksumming (can be "scratch"+58)
+      | Notes:
+      |   D0 (w) will contain (sum of 256 words at "scratch"+58+30) mod $FFFF
+      |   Trashes D0/D2/A0
+ 39c:	41ea 001e      	lea %a2@(30),%a0     | Point A0 at "scratch"+58+30
+ 3a0:	4240           	clrw %d0             | Empty D0
+ 3a2:	343c 0100      	movew #256,%d2       | Do the following over 256 words:
+ 3a6:	6000 0004      	braw 0x3ac
+ 3aa:	d058           	addw %a0@+,%d0       | Add to D0
+ 3ac:	51ca fffc      	dbf %d2,0x3aa
+ 3b0:	4e75           	rts
+
+
+
+
+000003b0:      3d7c 7fff ffe8 45ee 0006 7010 7202  Nu=|....E...p.r.
+000003c0: 6100 fe46 4240 101a b012 6608 536e ffe8  a..FB@....f.Sn..
+000003d0: 66e6 4e75 3d40 fff2 e948 3d40 ffec 7210  f.Nu=@...H=@..r.
+000003e0: 45ee 003a 6100 fe22 3212 0641 0011 e849  E..:a.."2..A...I
+000003f0: 3d41 fff0 d26e fff2 3001 0440 005c 6c12  =A...n..0..@.\l.
+00000400: 3f01 322e fff0 e949 3d41 ffee 426e ffea  ?.2....I=A..Bn..
+00000410: 6018 3f00 0657 0002 322e fff0 9240 e949  `.?..W..2....@.I
+00000420: 3d41 ffee e948 3d40 ffea 0c6a fefe 000e  =A...H=@...j....
+00000430: 6618 302e ffec 6100 fdd0 322e ffea 670a  f.0...a...2...g.
+00000440: 7020 d4ee ffee 6100 fdc0 301f 45ee 0006  p ....a...0.E...
+00000450: 1480 7010 6100 fe4a 45ee 003a 0c6a fefe  ..p.a..JE..:.j..
+00000460: 000e 6600 ff4e 302a 001a b06e 0008 6600  ..f..N0*...n..f.
+00000470: ff42 4a6a 000e 4e75
+
+      | $3B2 -- Honestly I have no idea at all. This routine reads a short
+      | string from the network card's RAM and does a whole bunch of funky
+      | manipulations: shifting stuff, writing and reading things from scratch
+      | memory, writing the occasional byte to the card, and looping a lot.
+      | Baffling to me!
+      |
+      | Wild guesses: we're doing some kind of polling-style request for a
+      | boot block and iterating through network address space until someone
+      | sends us some code? Or we're doing some kind of checksum on information
+      | inside the card?
+      |
+      | Args:
+      |   A6: Address to "scratch" (offset $54C)
+      | Notes:
+      |   Leaves A2 pointing at "scratch"+58 if it doesn't return early
+      |   Trashes SCRNBASE (?), D0-D1/A0/A2
+      |   At least one failure (?) path leaves Z set
+
+      | Loop until the two bytes at offset $16 of card SRAM are different;
+      | hold on to the first byte which we'll use again
+ 3b2:	3d7c 7fff ffe8 	movew #$7FFF,%fp@(-24)   | $7FFF->"scratch"-24 (retries)
+ 3b8:	45ee 0006      	lea %fp@(6),%a2      | A2 points at "scratch"+6
+ 3bc:	7010           	moveq #16,%d0        | Read from card memory offset $10
+ 3be:	7202           	moveq #2,%d1         | Read two whole bytes!
+ 3c0:	6100 fe46      	bsrw 0x208           | Do the read
+ 3c4:	4240           	clrw %d0             | So D0 has an empty high byte
+ 3c6:	101a           	moveb %a2@+,%d0      | Are both bytes we read different?
+ 3c8:	b012           	cmpb %a2@,%d0
+ 3ca:	6608           	bnes 0x3d4           | If so, jump ahead
+ 3cc:	536e ffe8      	subqw #1,%fp@(-24)   | Decrement retry count?
+ 3d0:	66e6           	bnes 0x3b8           | If nonzero, try again
+ 3d2:	4e75           	rts                  | Otherwise give up with Z set
+
+ 3d4:	3d40 fff2      	movew %d0,%fp@(-14)  | 1st byte we got => "scratch"-14
+ 3d8:	e948           	lslw #4,%d0          | * 16 to get a cardmem offset
+ 3da:	3d40 ffec      	movew %d0,%fp@(-20)  | Save it in "scratch"-20
+ 3de:	7210           	moveq #16,%d1        | Read 16 bytes...
+ 3e0:	45ee 003a      	lea %fp@(58),%a2     | ...Into offset $586...
+ 3e4:	6100 fe22      	bsrw 0x208           | ...Do the read
+ 3e8:	3212           	movew %a2@,%d1       | Load first word of result
+ 3ea:	0641 0011      	addiw #17,%d1        | Add 0b10001, then shift off a...
+ 3ee:	e849           	lsrw #4,%d1          | ...nibble (guess carry is needed)
+ 3f0:	3d41 fff0      	movew %d1,%fp@(-16)  | Copy to "scratch"-16
+ 3f4:	d26e fff2      	addw %fp@(-14),%d1   | Add 1st byte from before
+ 3f8:	3001           	movew %d1,%d0        | Copy to D0 and then subtract...
+ 3fa:	0440 005c      	subiw #92,%d0        | ...92? are we hashing something?
+ 3fe:	6c12           	bges 0x412           | If >= 0, jump ahead
+
+ 400:	3f01           	movew %d1,%sp@-      | Push D1 onto the stack
+ 402:	322e fff0      	movew %fp@(-16),%d1  | Copy back in "scratch"-16
+ 406:	e949           	lslw #4,%d1          | Unshift those four bits
+ 408:	3d41 ffee      	movew %d1,%fp@(-18)  | Place in "scratch"-18
+ 40c:	426e ffea      	clrw %fp@(-22)       | Clear "scratch"-22
+ 410:	6018           	bras 0x42a           | Then jump ahead
+
+ 412:	3f00           	movew %d0,%sp@-      | Push D0 onto the stack
+ 414:	0657 0002      	addiw #2,%sp@        | Add 2 to that stack value
+ 418:	322e fff0      	movew %fp@(-16),%d1  | Copy back in "scratch"-16
+ 41c:	9240           	subw %d0,%d1         | Subtract D0 from D1
+ 41e:	e949           	lslw #4,%d1          | Shift D1 left a nibble
+ 420:	3d41 ffee      	movew %d1,%fp@(-18)  | Copy D1 to "scratch"-18
+ 424:	e948           	lslw #4,%d0          | Shift D0 left a nibble
+ 426:	3d40 ffea      	movew %d0,%fp@(-22)  | Copy D0 to "scratch"-22
+
+ 42a:	0c6a fefe 000e 	cmpiw #-258,%a2@(14)   | Is "scratch"+58+14 $FEFE?
+ 430:	6618           	bnes 0x44a           | If not, skip ahead
+ 432:	302e ffec      	movew %fp@(-20),%d0  | "scratch"-20 => D0 (cardmem offs)
+ 436:	6100 fdd0      	bsrw 0x208           | Do a read into "scratch"+58
+ 43a:	322e ffea      	movew %fp@(-22),%d1  | "scratch"-22 => D1 (read size)
+ 43e:	670a           	beqs 0x44a           | If zero, skip ahead
+ 440:	7020           	moveq #32,%d0        | Otherwise, 32 into D0
+ 442:	d4ee ffee      	addaw %fp@(-18),%a2  | Advance A2 by "scratch"+18
+ 446:	6100 fdc0      	bsrw 0x208           | Do the read
+
+ 44a:	301f           	movew %sp@+,%d0      | Pop stack into D0
+ 44c:	45ee 0006      	lea %fp@(6),%a2      | Point A2 at "scratch"+6
+ 450:	1480           	moveb %d0,%a2@       | Save old stack value there
+ 452:	7010           	moveq #16,%d0        | Write one byte from (A2) to...
+ 454:	6100 fe4a      	bsrw 0x2a0           | ...card offset 16
+ 458:	45ee 003a      	lea %fp@(58),%a2     | Point A2 at "scratch"+58 area
+ 45c:	0c6a fefe 000e 	cmpiw #-258,%a2@(14)   | Is "scratch"+58+14 $FEFE?
+ 462:	6600 ff4e      	bnew 0x3b2           | If not, repeat this whole thing
+ 466:	302a 001a      	movew %a2@(26),%d0   | Is "scratch"+58+26" the same...
+ 46a:	b06e 0008      	cmpw %fp@(8),%d0     | ...as "scratch"+8?
+ 46e:	6600 ff42      	bnew 0x3b2           | If not, repeat this whole thing
+ 472:	4a6a 000e      	tstw %a2@(14)        | Set flags from "scratch"+58+14
+ 476:	4e75           	rts
+
+
+
+
+00000470:                     722e 2078 0110 4428  .BJj..Nur. x..D(
+00000480: 0001 45ee 000a 1556 0010 3481 526e 0008  ..E....V..4.Rn..
+00000490: 356e 0008 001a 303c 05c0 6100 fe06 303c  5n....0<..a...0<
+000004a0: 0083 725c 6100 fd14 670a 303c 0190 51c8  ..r\a...g.0<..Q.
+000004b0: fffe 60ea 45ee 000a 4e75
+
+      | $478 - Constructs and writes 46 bytes to the card, then calls the
+      | "command routine". This is called fairly early by the boot program,
+      | but then also again by the boot program later on. The 46 bytes during
+      | the *first* call start at "scratch" + 10 (rel. location $556) and may
+      | be (although check my work):
+      |
+      |   0046 0100 010b 0800  0800 07fe fefe fefe  XX05 0000 0004 0000
+      |   0200 YYYY 0000 0000  0000 6344 ffff ffff  ffff ffff ffff
+      |
+      | where XX is the MSbyte of the 32-bit slot address stored at "scratch"
+      | (so using that high byte as a scratch pad---not 32-bit clean I guess!),
+      | and YYYY is the "boot attempt count" value (or whatever it is) at
+      | "scratch" + 8.
+      |
+      | Args:
+      |   A6: Points to offset $54C, holding the slot low address
+      | Notes:
+      |   Trashes SCRNBASE?, D0-D1/A0/A2
+
+      | Prepare the string to write to the card
+ 478:	722e           	moveq #46,%d1        | 46 is some kind of size?
+ 47a:	2078 0110      	moveal 0x110,%a0     | SCRNBASE contents into A0?
+ 47e:	4428 0001      	negb %a0@(1)         | Negate (SCRNBASE+1)?
+ 482:	45ee 000a      	lea %fp@(10),%a2     | Point A2 at "scratch"+10: $002e..
+ 486:	1556 0010      	moveb %fp@,%a2@(16)  | Slot addr MSbyte to "scratch"+26
+ 48a:	3481           	movew %d1,%a2@       | Write 46 to "scratch"+10: $0046..
+ 48c:	526e 0008      	addqw #1,%fp@(8)     | Increment "scratch"+8
+ 490:	356e 0008 001a 	movew %fp@(8),%a2@(26)   | "scratch"+8 to "scratch"+36
+ 496:	303c 05c0      	movew #1472,%d0      | To SRAM offset 1472, write 46...
+ 49a:	6100 fe06      	bsrw 0x2a2           | ...bytes from saddr+10.
+
+ 49e:	303c 0083      	movew #131,%d0       | Call "cmd routine" with the...
+ 4a2:	725c           	moveq #92,%d1        | ...third argument unbound?
+ 4a4:	6100 fd14      	bsrw 0x1ba
+ 4a8:	670a           	beqs 0x4b4           | If D1 (result) is 0, go return...
+ 4aa:	303c 0190      	movew #400,%d0       | ...otherwise, take a wee break
+ 4ae:	51c8 fffe      	dbf %d0,0x4ae
+ 4b2:	60ea           	bras 0x49e           | Then try the "cmd routine" again
+
+ 4b4:	45ee 000a      	lea %fp@(10),%a2     | Point A2 at "scratch"+10...
+ 4b8:	4e75           	rts
+
+
+
+
+***
+*** COMPRESSED ICON DATA
+***
+
+000004b0:                          0081 04be ff3f  ..`.E...Nu.....?
+000004c0: 07ff ce80 03ff f301 ee7d 0e0e cf01 eef3  .........}......
+000004d0: 03ff 3c01 de06 01fe 8000 03ff c001 ffe0  ..<.............
+000004e0: 01ff 1280 ffc0 f73f de04 7b80 073d fe03  .......?..{..=..
+000004f0: 804d 0703 80f7 837b 8001 ff80 34ff c0ff  .M.....{....4...
+00000500: 7f80 c203 c001 8060 3f7d f8cf 3ff0 f31e  .......`?}..?...
+00000510: e07d e0e0 cf1e e0f3 3ff0 3c1f e060 18ff  .}......?.<..`..
+
+
+
+
+***
+*** DATA, SCRATCH SPACE, OR LEFTOVER SPACE
+***
+
+00000520: 5c00 0081 0100 010b 0800 0700 0000 025a  \..............Z
+      |   ^Card init.                ^  ^LSword of AppleNet number
+      |    longword?                 LSbyte of AppleNet prefix
+      |    Used by the
+      |    status prg.
+      |             [<--Written to card at $bc->]
+      |             [  after a.net addr loaded  ]
+      |             ^Argument to the boot program
+
+00000530: 5c24 0000 0000 0000 0000 0000 0000 0000  \$..............
+      |             ^    ^    ^    ^    ^    ^Scratch - 14 ($3B2 uses it)
+      |             :    :    :    :    Scratch - 16 ($3B2 routine uses it)
+      |             :    :    :    Scratch - 18 ($3B2 uses it) (read size?)
+      |             :    :    Scratch - 20 ($3B2 uses it) (cardmem offset)
+      |             :    Scratch - 22 ($3B2 routine uses it) (also read size?)
+      |             Scratch - 24: some kind of retry count
+
+00000540: 0000 0000 0000 0000 0000 0000
+      |   ^    ^              ^Scratch - 4: boot program saves D0-D1.w here
+      |   :    :               when the booted program returns
+      |   :    Scratch - 10: boot program saves A1 when booted program returns
+      |   Scratch - 12: used as a loop counter after booted program returns
+
+00000540:                               0000 0000  ................
+      |                                 ^Slot low address for AppleNet card
+      |                                  We call this location "scratch"
+      |                                  MSbyte may be used for other stuff
+
+00000550: 0000 0000 0000 002e 0000 0000 0000 0800  ................
+      |   ^    ^    ^    ^    [Copy of $524] by boot program
+      |   :    :    :    Scratch + 10: boot program scratch area?
+      |   :    :    Scratch + 8: boot attempt counter? boot program selector?
+      |   :    Scratch + 6 ($3B2 routine uses it)
+      |   "Command routine" scratch word: "control register index"
+      |                  :----------------------=
+
+00000560: 07fe fefe fefe 0005 0000 0004 0000 0200  ................
+      |                  ^         ^"Scratch" + 10 + 20; cf. routine $36A
+      |                  "Scratch" + 26
+      |   =-------------------------------------= (This run written out by $478)
+
+00000570: 0000 0000 0000 0000 6384 ffff ffff ffff  ........c.......
+      |   ^"Scratch" + 36     ^ROM checksum word
+      |   =-------------------------------------=
+
+00000580: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+      |   =-------: :-----------"Scratch" + 58--=
+      |               Used by boot program and by
+
+00000590: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+      |   =-------:
+      |   $3B2
+
+000005a0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000005b0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000005c0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000005d0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000005e0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000005f0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000600: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000610: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000620: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000630: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000640: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000650: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000660: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000670: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000680: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000690: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006a0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006b0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006c0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006d0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006e0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000006f0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000700: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000710: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000720: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000730: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000740: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000750: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000760: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000770: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000780: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+00000790: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000007a0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+      |                  ^Status program loads the AppleNet serial number
+      |                   here (as recovered by the boot ROM, so a run of
+      |                   32 low nibbles). Boot program puts the boot block
+      |                   here and jumps here at boot time.
+
+000007b0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000007c0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000007d0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
+000007e0: ffff ffff ffff ffff ffff ffff ffff ffff  ................
